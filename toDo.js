@@ -6,3 +6,5 @@
 // BackEnd - > separating routes
 
 // Set up logger -> winston
+
+// Add Joi validation to the models.
