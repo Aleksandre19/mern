@@ -12,9 +12,9 @@ const App = () => {
           <Outlet />
         </Container>
       </main>
-      <Footer/>
+      <Footer />
     </>
   );
 };
 
-export default App
+export default App;

@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
-const Footer = () => {  
+const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
     <div>
@@ -14,7 +14,7 @@ const Footer = () => {
         </Container>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
