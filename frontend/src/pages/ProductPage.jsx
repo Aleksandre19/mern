@@ -29,7 +29,7 @@ const ProductPage = () => {
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
-        Go Back
+        Go Back {productId}
       </Link>
       {error && <p>{error}</p>}
       <Row>
