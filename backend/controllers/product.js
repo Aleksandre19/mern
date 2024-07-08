@@ -1,5 +1,4 @@
 const asyncHandler = require('../middlewares/asyncHandler');
-const validateObjectId = require('../middlewares/validateObjectId');
 const Product = require('../models/product');
 
 // @desc 'Get all Products'
