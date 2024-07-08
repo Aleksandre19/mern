@@ -28,7 +28,11 @@ const cartSlice = createSlice({
       // Calculate cost
       return updateCart(state);
     },
+    removeCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((i) => i._id !== action.payload);
+      return updateCart(state);
+    },
   },
 });
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeCart } = cartSlice.actions;
 export default cartSlice.reducer;
