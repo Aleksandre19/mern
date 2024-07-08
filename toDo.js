@@ -12,3 +12,9 @@
 // Separate routes from app.js into startup folder -> routes.js
 
 // პროდუქტის გვერდიდან უკან გამოსვლის დრო მთავარი გვერდის 'დახამხამება' :)
+
+// Organize/Seperate components in profuct page.
+
+// Check a implementation of ReactQuery instead of Redux.
+
+// Add product filters -> category, price ...
