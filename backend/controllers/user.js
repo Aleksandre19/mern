@@ -1,3 +1,4 @@
+const bcryptjs = require('bcryptjs');
 const asyncHandler = require('../middlewares/asyncHandler');
 const User = require('../models/user');
 
@@ -5,7 +6,25 @@ const User = require('../models/user');
 // @route POST /api/users/login
 // @access Public
 const auth = asyncHandler(async (req, res) => {
-  res.send('Auth user');
+  const { email, password } = req.body;
+  // Needs to be done Joi validation
+
+  // Validate email
+  const user = await User.findOne({ email });
+  if (!user) return res.status(401).send('Invalid email or password');
+
+  // Validate passwor
+  const validPassword = await bcryptjs.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send('Invalide email or password.');
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  });
+
+  //  res.send('Auth user');
 });
 
 // @desc Register User

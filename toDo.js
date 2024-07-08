@@ -18,3 +18,5 @@
 // Check a implementation of ReactQuery instead of Redux.
 
 // Add product filters -> category, price ...
+
+// Joi validation in auth route.
