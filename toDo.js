@@ -10,3 +10,5 @@
 // Add Joi validation to the models.
 
 // Separate routes from app.js into startup folder -> routes.js
+
+// პროდუქტის გვერდიდან უკან გამოსვლის დრო მთავარი გვერდის 'დახამხამება' :)

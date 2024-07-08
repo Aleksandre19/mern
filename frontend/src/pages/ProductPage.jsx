@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetProductDetailsQuery } from '../slices/product';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
-
-import axios from 'axios';
-
 import Rating from '../components/Rating';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
 
 const ProductPage = () => {
   const { id } = useParams();
   const { data: product, isLoading, error } = useGetProductDetailsQuery(id);
 
-  if (error) return <div>{error.data?.message || error.error}</div>;
+  if (error)
+    return (
+      <Message type='danger'>{error.data?.message || error.error}</Message>
+    );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
