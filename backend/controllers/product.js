@@ -2,7 +2,7 @@ const asyncHandler = require('../middlewares/asyncHandler');
 const Product = require('../models/product');
 
 // @desc 'Get all Products'
-// @route GET /api/v1/products
+// @route GET /api/products
 // @access Public
 const allProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({});
@@ -10,7 +10,7 @@ const allProducts = asyncHandler(async (req, res) => {
 });
 
 // @desc 'Get Single Product'
-// @route GET /api/v1/products
+// @route GET /api/products
 // @access Public
 const singleProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
