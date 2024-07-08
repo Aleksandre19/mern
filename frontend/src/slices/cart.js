@@ -10,22 +10,22 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      // Get current item
       const item = action.payload;
 
       // Check if item exists
-      const itemExists = state.cartItems.find((i) => {
-        i._id === item._id;
-      });
+      const itemExists = state.cartItems.find((i) => i._id === item._id);
 
-      // Update/Add item
+      // Update/Add itme
       if (itemExists) {
-        state.cartItems = state.cratItems.map((i) =>
-          i._id === item._id ? item : i
+        state.cartItems = state.cartItems.map((i) =>
+          i._id === itemExists._id ? item : i
         );
       } else {
         state.cartItems = [...state.cartItems, item];
       }
 
+      // Calculate cost
       return updateCart(state);
     },
   },
