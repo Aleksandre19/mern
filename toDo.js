@@ -5,6 +5,8 @@
 
 // BackEnd - > separating routes
 
-// Set up logger -> winston
+// x Set up logger -> winston
 
 // Add Joi validation to the models.
+
+// Separate routes from app.js into startup folder -> routes.js
