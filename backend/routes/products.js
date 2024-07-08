@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const products = require('../data/products.js');
 const asyncHandler = require('../middlewares/asyncHandler');
+const validateObjectId = require('../middlewares/validateObjectId');
 const Products = require('../models/product');
 
 router.get(
@@ -14,6 +14,7 @@ router.get(
 
 router.get(
   '/:id',
+  validateObjectId,
   asyncHandler(async (req, res) => {
     const product = await Products.findById(req.params.id);
 
