@@ -10,7 +10,13 @@ export const productSlice = () =>
         }),
         keepUnusedDataFor: 5,
       }),
+      getProductDetails: builder.query({
+        query: (id) => ({
+          url: `${PRODUCTS_URL}/${id}`,
+        }),
+      }),
     }),
   });
 
-export const { useGetProductsQuery } = productSlice();
+export const { useGetProductsQuery, useGetProductDetailsQuery } =
+  productSlice();

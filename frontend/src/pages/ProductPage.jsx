@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useGetProductDetailsQuery } from '../slices/product';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
@@ -8,24 +9,12 @@ import axios from 'axios';
 import Rating from '../components/Rating';
 
 const ProductPage = () => {
-  const [product, setProduct] = useState([]);
-  const [error, setError] = useState('');
+  const { id } = useParams();
+  const { data: product, isLoading, error } = useGetProductDetailsQuery(id);
 
-  const { id: productId } = useParams();
+  if (error) return <div>{error.data?.message || error.error}</div>;
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/${productId}`);
-        setProduct(data);
-        setError('');
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchProduct();
-  }, [productId]);
-
+  if (isLoading) return <div>Loading...</div>;
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
