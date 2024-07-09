@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,16 +9,20 @@ import CheckoutSteps from '../components/CheckoutSteps';
 const ShippingPage = () => {
   // Grab Shipping Address from Redux Store
   const cart = useSelector((state) => state.cart);
-  const { shippingAdress } = cart;
+  const { cartItems, shippingAdress } = cart;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cartItems.length === 0) navigate('/cart');
+  }, [cartItems, navigate]);
 
   // Component base state
   const [address, setAddress] = useState(shippingAdress?.address || '');
   const [city, setCity] = useState(shippingAdress?.city || '');
   const [postalCode, setPostalCode] = useState(shippingAdress?.postalCode || '');
   const [country, setCountry] = useState(shippingAdress?.country || '');
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
