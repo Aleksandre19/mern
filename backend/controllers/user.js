@@ -9,14 +9,16 @@ const User = require('../models/user');
 // @access Public
 const auth = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   // Needs to be done Joi validation
+  if (!email || !password) return res.status(400).send('Invalid email or password');
 
   // Validate email
   const user = await User.findOne({ email });
   if (!user) return res.status(401).send('Invalid email or password');
 
   // Validate passwor
-  const validPassword = await bcryptjs.compare(req.body.password, user.password);
+  const validPassword = await bcryptjs.compare(password, user.password);
   if (!validPassword) return res.status(400).send('Invalide email or password.');
 
   // Generate Token and store it in HTTP-Only cookie
