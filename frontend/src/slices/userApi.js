@@ -12,6 +12,13 @@ export const userApi = () =>
         }),
         keepUnusedDataFor: 5,
       }),
+      register: builder.mutation({
+        query: (data) => ({
+          url: `${USERS_URL}`,
+          method: 'POST',
+          body: data,
+        }),
+      }),
       logout: builder.mutation({
         query: () => ({
           url: `${USERS_URL}/logout`,
@@ -21,4 +28,4 @@ export const userApi = () =>
     }),
   });
 
-export const { useLoginMutation, useLogoutMutation } = userApi();
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = userApi();
