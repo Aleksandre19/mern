@@ -22,14 +22,7 @@ const auth = asyncHandler(async (req, res) => {
   const token = user.generateAuthToken();
   setAuthCookie(res, token);
 
-  res.json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    isAdmin: user.isAdmin,
-  });
-
-  //  res.send('Auth user');
+  res.status(200).send('User is authenticated');
 });
 
 // @desc Register User
@@ -43,7 +36,12 @@ const register = asyncHandler(async (req, res) => {
 // @route POST /api/users/logout
 // @access Private
 const logout = asyncHandler(async (req, res) => {
-  res.send('Logout user');
+  res.cookie('mern_jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).send('User is logged out');
 });
 
 // @desc Get user profile
