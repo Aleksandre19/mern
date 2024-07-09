@@ -6,7 +6,7 @@ import FormContainer from '../components/FormContainer';
 import { saveShippingAddress } from '../slices/cart';
 import CheckoutSteps from '../components/CheckoutSteps';
 
-const Shipping = () => {
+const ShippingPage = () => {
   // Grab Shipping Address from Redux Store
   const cart = useSelector((state) => state.cart);
   const { shippingAdress } = cart;
@@ -75,4 +75,4 @@ const Shipping = () => {
   );
 };
 
-export default Shipping;
+export default ShippingPage;
