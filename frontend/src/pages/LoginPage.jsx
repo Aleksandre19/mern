@@ -35,19 +35,14 @@ const LoginPage = () => {
   // Authenticate user
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const res = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate(redirect);
-    } catch (err) {
-      if (err.data) {
-        toast.error(err.data || 'An error occurred');
-      } else if (err.error) {
-        toast.error(err.error);
-      } else {
-        toast.error('An unexpected error occurred');
-      }
-    }
+
+    const { error, data } = await login({ email, password });
+
+    if (error)
+      return toast.error(error?.data?.message || error.message || 'Authentication error');
+
+    dispatch(setCredentials({ ...data }));
+    navigate(redirect);
   };
 
   return (

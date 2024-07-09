@@ -11,15 +11,15 @@ const auth = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // Needs to be done Joi validation
-  if (!email || !password) return res.status(400).send('Invalid email or password');
+  if (!email || !password) return res.status(400).json('Invalid email or password');
 
   // Validate email
   const user = await User.findOne({ email });
-  if (!user) return res.status(401).send('Invalid email or password');
+  if (!user) return res.status(401).json('Invalid email or password');
 
   // Validate passwor
   const validPassword = await bcryptjs.compare(password, user.password);
-  if (!validPassword) return res.status(400).send('Invalide email or password.');
+  if (!validPassword) return res.status(400).json('Invalide email or password.');
 
   // Generate Token and store it in HTTP-Only cookie
   const token = user.generateAuthToken();
@@ -37,7 +37,7 @@ const register = asyncHandler(async (req, res) => {
 
   // Check if user exists
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send('User already exists');
+  if (user) return res.status(400).json('User already exists');
 
   // Create user
   user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
@@ -54,12 +54,9 @@ const register = asyncHandler(async (req, res) => {
 // @route POST /api/users/logout
 // @access Private
 const logout = asyncHandler(async (req, res) => {
-  res.cookie('mern_jwt', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
+  res.clearCookie('mern_jwt');
 
-  res.status(200).send('User is logged out');
+  res.status(200).json('User is logged out');
 });
 
 // @desc Get user profile
@@ -68,7 +65,7 @@ const logout = asyncHandler(async (req, res) => {
 const getProfile = asyncHandler(async (req, res) => {
   // Check if user exists
   const user = await User.findById(req.user._id);
-  if (!user) return res.status(404).send('User not found');
+  if (!user) return res.status(404).json('User not found');
 
   // Return user
   res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
@@ -82,7 +79,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 
   // Check if user exists
   const user = await User.findById(req.user._id);
-  if (!user) return res.status(404).send('User not found');
+  if (!user) return res.status(404).json('User not found');
 
   // Update user
   user.name = req.body.name || user.name;
