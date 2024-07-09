@@ -1,5 +1,7 @@
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const asyncHandler = require('../middlewares/asyncHandler');
+const { setAuthCookie } = require('../utils/auth');
 const User = require('../models/user');
 
 // @desc Authe User & get toke
@@ -16,6 +18,10 @@ const auth = asyncHandler(async (req, res) => {
   // Validate passwor
   const validPassword = await bcryptjs.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send('Invalide email or password.');
+
+  // Generate Token and set it in HTTP-Only cookie
+  const token = user.generateAuthToken();
+  setAuthCookie(res, token);
 
   res.json({
     _id: user._id,
