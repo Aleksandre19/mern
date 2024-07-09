@@ -1,4 +1,5 @@
 const bcryptjs = require('bcryptjs');
+const _ = require('lodash');
 const asyncHandler = require('../middlewares/asyncHandler');
 const { setAuthCookie } = require('../utils/auth');
 const User = require('../models/user');
@@ -22,14 +23,29 @@ const auth = asyncHandler(async (req, res) => {
   const token = user.generateAuthToken();
   setAuthCookie(res, token);
 
-  res.status(200).send('User is authenticated');
+  // Return user
+  res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 // @desc Register User
 // @route GET /api/users
 // @access Public
 const register = asyncHandler(async (req, res) => {
-  res.send('Register user');
+  // !!! Needs to be add Joi validation
+
+  // Check if user exists
+  let user = await User.findOne({ email: req.body.email });
+  if (user) return res.status(400).send('User already exists');
+
+  // Create user
+  user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
+  await user.save();
+
+  // Generate Token and store it in HTTP-Only cookie
+  const token = user.generateAuthToken();
+  setAuthCookie(res, token);
+
+  res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 // @desc Logout User / Clear cookie
@@ -48,14 +64,32 @@ const logout = asyncHandler(async (req, res) => {
 // @route GET /api/user/profile
 // @access Private
 const getProfile = asyncHandler(async (req, res) => {
-  res.send('Get user profile');
+  // Check if user exists
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(404).send('User not found');
+
+  // Return user
+  res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 // @desc Update user profile
 // @route PUT /api/users/profile
 // @access Private
 const updateProfile = asyncHandler(async (req, res) => {
-  res.send('Update user profile');
+  // !!! Needs Joi Validation
+
+  // Check if user exists
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(404).send('User not found');
+
+  // Update user
+  user.name = req.body.name || user.name;
+  user.email = req.body.email || user.email;
+  if (req.body.password) user.password = req.body.password;
+  await user.save();
+
+  // Return user
+  res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 // @desc Get all users
