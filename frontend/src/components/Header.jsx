@@ -21,14 +21,11 @@ const Header = () => {
 
   // Logout handler
   const logoutHandler = async () => {
-    // Call logout API
     const { error, data } = await logoutApiCall();
 
-    // Check error
     if (error)
       return toast.error(error?.data?.message || error.message || 'Logout error');
 
-    // Logout and redirect to login page
     dispatch(logout());
     toast.success(data.message || 'Logout successful');
     navigate('/login');

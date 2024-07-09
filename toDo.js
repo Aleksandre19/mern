@@ -20,3 +20,7 @@
 // Add product filters -> category, price ...
 
 // Joi validation in auth route.
+
+// Implement Hooks
+
+// Join Controllers and Routes

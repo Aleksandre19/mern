@@ -42,6 +42,7 @@ const LoginPage = () => {
       return toast.error(error?.data?.message || error.message || 'Authentication error');
 
     dispatch(setCredentials({ ...data }));
+    toast.success(`Welcome back, ${data.name}`);
     navigate(redirect);
   };
 
