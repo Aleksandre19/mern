@@ -7,7 +7,7 @@ export const updateCart = (state) => {
   );
 
   // Shipping price
-  state.shipoingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+  state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
 
   // Tax price
   state.taxPrice = addDecimals(Number((state.itemsPrice * 0.15).toFixed(2)));
@@ -15,7 +15,7 @@ export const updateCart = (state) => {
   // Total price
   state.totalPrice = (
     Number(state.itemsPrice) +
-    Number(state.shipoingPrice) +
+    Number(state.shippingPrice) +
     Number(state.taxPrice)
   ).toFixed(2);
 
