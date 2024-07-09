@@ -1,6 +1,7 @@
 const express = require('express');
 
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
 require('./startup/db.js')();
 require('./startup/logger')();
 
@@ -10,6 +11,7 @@ const users = require('./routes/users.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use('/api/products', products);
 app.use('/api/users', users);

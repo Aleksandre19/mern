@@ -11,17 +11,17 @@ const {
   deleteUser,
   updateUser,
 } = require('../controllers/user');
-
 const validateObjectId = require('../middlewares/validateObjectId');
+const { isAuth, isAdmin } = require('../middlewares/auth');
 
-router.route('/').post(register).get(allUsers);
+router.route('/').post(register).get(isAuth, isAdmin, allUsers);
 router.post('/logout', logout);
-router.post('/login', auth);
-router.route('/profile').get(getProfile).put(updateProfile);
+router.post('/auth', auth);
+router.route('/profile').get(isAuth, getProfile).put(isAuth, updateProfile);
 router
   .route('/:id')
-  .get(validateObjectId, userById)
-  .delete(validateObjectId, deleteUser)
-  .put(validateObjectId, updateUser);
+  .get(isAuth, isAdmin, validateObjectId, userById)
+  .delete(isAuth, isAdmin, validateObjectId, deleteUser)
+  .put(isAuth, isAdmin, validateObjectId, updateUser);
 
 module.exports = router;
