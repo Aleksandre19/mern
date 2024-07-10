@@ -3,6 +3,7 @@ const router = express.Router();
 const bcryptjs = require('bcryptjs');
 const _ = require('lodash');
 const User = require('../models/user');
+const { validateAuthUser, validateRegUser } = require('../models/user');
 const { setAuthCookie } = require('../utils/auth');
 const asyncHandler = require('../middlewares/asyncHandler');
 
@@ -12,10 +13,12 @@ const asyncHandler = require('../middlewares/asyncHandler');
 router.post(
   '/auth',
   asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    // Validate user
+    const { error } = validateAuthUser(req.body);
+    if (error) return res.status(400).json('Invalid email or password');
 
-    // Needs to be done Joi validation
-    if (!email || !password) return res.status(400).json('Invalid email or password');
+    // Unpack users credentials
+    const { email, password } = req.body;
 
     // Validate email
     const user = await User.findOne({ email });
@@ -40,7 +43,9 @@ router.post(
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    // !!! Needs to be add Joi validation
+    // Validate user
+    const { error } = validateRegUser(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
 
     // Check if user exists
     let user = await User.findOne({ email: req.body.email });

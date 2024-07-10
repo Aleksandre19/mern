@@ -19,6 +19,7 @@
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "winston": "^3.13.0"
