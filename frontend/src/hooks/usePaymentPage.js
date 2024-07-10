@@ -13,8 +13,8 @@ const usePamentPage = () => {
   const { shippingAddress } = cart;
 
   useEffect(() => {
-    if (!shippingAddress) navigate('/shipping');
-  }, [shippingAddress, navigate]);
+    if (!shippingAddress.address) navigate('/shipping');
+  }, [shippingAddress.address, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

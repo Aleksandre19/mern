@@ -6,7 +6,7 @@ import { saveShippingAddress } from '../slices/cart';
 const useShipping = () => {
   // Grab Shipping Address from Redux Store
   const cart = useSelector((state) => state.cart);
-  const { cartItems, shippingAdress } = cart;
+  const { cartItems, shippingAddress } = cart;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,10 +16,12 @@ const useShipping = () => {
   }, [cartItems, navigate]);
 
   // Component base state
-  const [address, setAddress] = useState(shippingAdress?.address || '');
-  const [city, setCity] = useState(shippingAdress?.city || '');
-  const [postalCode, setPostalCode] = useState(shippingAdress?.postalCode || '');
-  const [country, setCountry] = useState(shippingAdress?.country || '');
+  const [address, setAddress] = useState(shippingAddress?.address || '');
+  const [city, setCity] = useState(shippingAddress?.city || '');
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || ''
+  );
+  const [country, setCountry] = useState(shippingAddress?.country || '');
 
   const submitHandler = (e) => {
     e.preventDefault();
