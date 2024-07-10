@@ -26,7 +26,9 @@ router.get(
     const product = await Product.findById(req.params.id);
 
     if (!product)
-      return res.status(404).send('The product with the given ID was not found.');
+      return res
+        .status(404)
+        .send('The product with the given ID was not found.');
 
     res.json(product);
   })

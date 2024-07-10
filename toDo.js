@@ -13,7 +13,7 @@
 
 // პროდუქტის გვერდიდან უკან გამოსვლის დრო მთავარი გვერდის 'დახამხამება' :)
 
-// Organize/Seperate components in profuct page.
+// x Organize/Seperate components in profuct page.
 
 // Check a implementation of ReactQuery instead of Redux.
 
@@ -21,6 +21,6 @@
 
 // x Joi validation in auth route.
 
-// Implement Hooks
+// X Implement Hooks
 
 // x Join Controllers and Routes
