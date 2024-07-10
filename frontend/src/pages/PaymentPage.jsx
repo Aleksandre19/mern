@@ -1,29 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button, Col } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { savePayment } from '../slices/cart';
+import FormContainer from '../components/FormContainer';
+import { Form, Button, Col } from 'react-bootstrap';
+import usePamentPage from '../hooks/usePaymentPage';
 
 const PaymentPage = () => {
-  const [paymentMethod, setPaymentMethod] = useState('');
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const cart = useSelector((state) => state.cart);
-  const { shippingAddress } = cart;
-
-  useEffect(() => {
-    if (!shippingAddress) navigate('/shipping');
-  }, [shippingAddress, navigate]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(savePayment({ paymentMethod }));
-    navigate('/placeorder');
-  };
+  const { setPaymentMethod, submitHandler } = usePamentPage();
 
   return (
     <FormContainer>
