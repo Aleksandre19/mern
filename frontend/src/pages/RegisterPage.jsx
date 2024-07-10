@@ -1,7 +1,7 @@
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import useRegisterPageLogic from '../hooks/useRgisterPageLogic';
+import useRegisterPage from '../hooks/useRgisterPage';
 
 const RegisterPage = () => {
   const {
@@ -17,7 +17,7 @@ const RegisterPage = () => {
     isLoading,
     Link,
     redirect,
-  } = useRegisterPageLogic();
+  } = useRegisterPage();
 
   return (
     <FormContainer>

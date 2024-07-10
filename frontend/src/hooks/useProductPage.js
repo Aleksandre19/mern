@@ -5,7 +5,7 @@ import { useGetProductDetailsQuery } from '../slices/product';
 import { addToCart } from '../slices/cart';
 import { toast } from 'react-toastify';
 
-const useProducPageLogic = () => {
+const useProducPage = () => {
   // Grab product ID
   const { id } = useParams();
 
@@ -41,4 +41,4 @@ const useProducPageLogic = () => {
   };
 };
 
-export default useProducPageLogic;
+export default useProducPage;

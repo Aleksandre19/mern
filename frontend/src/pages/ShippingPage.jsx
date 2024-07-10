@@ -2,7 +2,7 @@ import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 
-import useShippingLogic from '../hooks/useShippingLogic';
+import useShipping from '../hooks/useShipping';
 
 const ShippingPage = () => {
   const {
@@ -15,7 +15,7 @@ const ShippingPage = () => {
     country,
     setCountry,
     submitHandler,
-  } = useShippingLogic();
+  } = useShipping();
 
   return (
     <FormContainer>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { saveShippingAddress } from '../slices/cart';
 
-const useShippingLogic = () => {
+const useShipping = () => {
   // Grab Shipping Address from Redux Store
   const cart = useSelector((state) => state.cart);
   const { cartItems, shippingAdress } = cart;
@@ -40,4 +40,4 @@ const useShippingLogic = () => {
   };
 };
 
-export default useShippingLogic;
+export default useShipping;

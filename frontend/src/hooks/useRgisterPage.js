@@ -5,7 +5,7 @@ import { useRegisterMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
 import { toast } from 'react-toastify';
 
-const useRegisterPageLogic = () => {
+const useRegisterPage = () => {
   // Component base states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -69,4 +69,4 @@ const useRegisterPageLogic = () => {
   };
 };
 
-export default useRegisterPageLogic;
+export default useRegisterPage;

@@ -2,7 +2,7 @@ import Rating from '../components/Rating';
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Loader from '../components/Loader';
 
-import useProductPageLogic from '../hooks/useProductPageLogic';
+import useProductPage from '../hooks/useProductPage';
 
 const ProductPage = () => {
   // prettier-ignore
@@ -13,7 +13,7 @@ const ProductPage = () => {
     setQty,
     Link,
     isLoading,
-    error } = useProductPageLogic();
+    error } = useProductPage();
 
   // Loading handling
   if (isLoading) return <Loader />;
