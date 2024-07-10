@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const bcryptjs = require('bcryptjs');
-const Joi = require('joi');
+import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import bcryptjs from 'bcryptjs';
+import Joi from 'joi';
 
 const userSchema = new mongoose.Schema(
   {
@@ -70,6 +70,5 @@ const validateRegUser = (user) => {
 };
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
-module.exports.validateAuthUser = validateAuthUser;
-module.exports.validateRegUser = validateRegUser;
+export { validateAuthUser, validateRegUser };
+export default User;

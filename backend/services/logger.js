@@ -1,11 +1,8 @@
-const winston = require('winston');
+import winston from 'winston';
 
-module.exports = winston.createLogger({
+export default winston.createLogger({
   level: 'error',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new winston.transports.File({ filename: 'logfile.log' }),
     new winston.transports.Console({

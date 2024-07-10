@@ -1,4 +1,4 @@
-exports.setAuthCookie = (res, token) => {
+export const setAuthCookie = (res, token) => {
   res.cookie('mern_jwt', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',

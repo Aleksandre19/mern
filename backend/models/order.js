@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { type } = require('os');
+import mongoose from 'mongoose';
 
 const orderItems = new mongoose.Schema({
   name: { type: String, required: true },
@@ -84,4 +83,4 @@ const orderSchem = new mongoose.Schema(
 );
 
 const Order = mongoose.model('Order', orderSchem);
-module.exports = Order;
+export default Order;

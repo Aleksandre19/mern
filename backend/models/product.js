@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const { type } = require('os');
-const Joi = require('joi');
+import mongoose from 'mongoose';
+import Joi from 'joi';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -101,5 +100,5 @@ const validateProduct = (product) => {
 };
 
 const Product = mongoose.model('Product', productSchema);
-module.exports = Product;
-module.exports.validate = validateProduct;
+export { validateProduct };
+export default Product;

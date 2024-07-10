@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('./asyncHandler');
-const User = require('../models/user');
+import jws from 'jsonwebtoken';
+import asyncHandler from './asyncHandler.js';
+import User from '../models/user.js';
 
 const isAuth = asyncHandler(async (req, res, next) => {
   const token = req.cookies.mern_jwt;
@@ -21,4 +21,4 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-module.exports = { isAdmin, isAuth };
+export { isAuth, isAdmin };

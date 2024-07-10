@@ -1,6 +1,6 @@
-const logger = require('../services/logger');
+import logger from '../services/logger.js';
 
-module.exports = () => {
+export default () => {
   process.on('uncaughtException', (ex) => {
     logger.error(ex.message, ex);
   });

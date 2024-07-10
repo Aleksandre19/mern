@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const bcryptjs = require('bcryptjs');
-const _ = require('lodash');
-const User = require('../models/user');
-const { validateAuthUser, validateRegUser } = require('../models/user');
-const { setAuthCookie } = require('../utils/auth');
-const asyncHandler = require('../middlewares/asyncHandler');
+import bcryptjs from 'bcryptjs';
+import _ from 'lodash';
+import User from '../models/user.js';
+import { validateAuthUser, validateRegUser } from '../models/user.js';
+import { setAuthCookie } from '../utils/auth.js';
+import asyncHandler from '../middlewares/asyncHandler.js';
 
 // @desc Authe User
 // @route POST /api/users/auth
@@ -75,4 +75,4 @@ router.post(
   })
 );
 
-module.exports = router;
+export default router;
