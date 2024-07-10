@@ -1,29 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { addToCart, removeCart } from '../slices/cart';
+import useCartPage from '../hooks/useCartPage';
 
 const CartPage = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const card = useSelector((state) => state.cart);
-  const { cartItems } = card;
-
-  // ?? async
-  const addToCartHandler = async (item, qty) => {
-    dispatch(addToCart({ ...item, qty }));
-  };
-
-  const removeCartHandler = async (id) => {
-    dispatch(removeCart(id));
-  };
-
-  const chackoutHandler = () => {
-    navigate('/login?redirect=shipping');
-  };
+  const { cartItems, addToCartHandler, removeCartHandler, chackoutHandler } =
+    useCartPage();
 
   return (
     <Row>
