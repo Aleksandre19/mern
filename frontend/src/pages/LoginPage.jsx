@@ -39,7 +39,9 @@ const LoginPage = () => {
     const { error, data } = await login({ email, password });
 
     if (error)
-      return toast.error(error?.data?.message || error.message || 'Authentication error');
+      return toast.error(
+        error?.data || error?.data?.message || error.message || 'Authentication error'
+      );
 
     dispatch(setCredentials({ ...data }));
     toast.success(`Welcome back, ${data.name}`);

@@ -34,17 +34,23 @@ const RegisterPage = () => {
     if (userInfo) navigate(redirect);
   }, [userInfo, redirect, navigate]);
 
-  // Authenticate user
+  // Register user
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    // Check if password matches
     if (password !== confirmPassword) return toast.error('Passwords do not match');
 
+    // Register user
     const { error, data } = await register({ name, email, password });
 
+    // Check error
     if (error)
-      return toast.error(error?.data?.message || error.message || 'Registration error');
+      return toast.error(
+        error?.data || error?.data?.message || error.message || 'Authentication error'
+      );
 
+    // Set user credentials and redirect
     dispatch(setCredentials({ ...data }));
     toast.success(`Welcome, ${data.name}`);
     navigate(redirect);
