@@ -7,7 +7,7 @@ require('./startup/logger')();
 
 const app = express();
 const products = require('./routes/products');
-const users = require('./routes/users.js');
+const users = require('./routes/users');
 const orders = require('./routes/orders');
 
 app.use(express.json());

@@ -1,15 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button,
-  Form,
-} from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
 import { useGetProductDetailsQuery } from '../slices/product';
@@ -17,24 +9,31 @@ import { addToCart } from '../slices/cart';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 const ProductPage = () => {
+  // Grab product ID
   const { id } = useParams();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Component base state
   const [qty, setQty] = useState(1);
 
+  // Fetch product data
   const { data: product, isLoading, error } = useGetProductDetailsQuery(id);
 
+  // Error handling
   if (error)
-    return (
-      <Message type='danger'>{error.data?.message || error.error}</Message>
+    return toast.error(
+      error?.data?.message || error?.data || error.message || 'Authentication error'
     );
 
+  // Loading handling
   if (isLoading) return <Loader />;
 
+  // Add to cart and redirect
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate('/cart');
@@ -56,10 +55,7 @@ const ProductPage = () => {
               <h3>{product.name}</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating
-                value={product.rating}
-                text={`${product.numReviews} reviews`}
-              />
+              <Rating value={product.rating} text={`${product.numReviews} reviews`} />
             </ListGroup.Item>
             <ListGroup.Item>Price ${product.price}</ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
