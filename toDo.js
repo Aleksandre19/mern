@@ -3,11 +3,11 @@
 
 // Creata ApiClient, Hooks for fetching data.
 
-// BackEnd - > separating routes and sqeeze quantity.
+// x BackEnd - > separating routes and sqeeze quantity.
 
 // x Set up logger -> winston
 
-// Add Joi validation to the models.
+// x Add Joi validation to the models.
 
 // Separate routes from app.js into startup folder -> routes.js
 
@@ -19,8 +19,8 @@
 
 // Add product filters -> category, price ...
 
-// Joi validation in auth route.
+// x Joi validation in auth route.
 
 // Implement Hooks
 
-// Join Controllers and Routes
+// x Join Controllers and Routes

@@ -4,7 +4,6 @@ const router = express.Router();
 import Product from '../models/product.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
-import { isAdmin, isAuth } from '../middlewares/auth.js';
 
 // @desc Get all products
 // @route GET /api/products

@@ -53,7 +53,7 @@ const ShippingPage = () => {
             onChange={(e) => setCity(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='city' className='my-2'>
+        <Form.Group controlId='postalCode' className='my-2'>
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
             type='text'
@@ -62,7 +62,7 @@ const ShippingPage = () => {
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='city' className='my-2'>
+        <Form.Group controlId='country' className='my-2'>
           <Form.Label>Postal Country</Form.Label>
           <Form.Control
             type='text'
