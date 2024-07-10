@@ -1,43 +1,22 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
-
-import { useDispatch } from 'react-redux';
-import { useGetProductDetailsQuery } from '../slices/product';
-import { addToCart } from '../slices/cart';
 import Rating from '../components/Rating';
-import Message from '../components/Message';
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Loader from '../components/Loader';
-import { toast } from 'react-toastify';
+
+import useProductPageLogic from '../hooks/useProductPageLogic';
 
 const ProductPage = () => {
-  // Grab product ID
-  const { id } = useParams();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // Component base state
-  const [qty, setQty] = useState(1);
-
-  // Fetch product data
-  const { data: product, isLoading, error } = useGetProductDetailsQuery(id);
-
-  // Error handling
-  if (error)
-    return toast.error(
-      error?.data?.message || error?.data || error.message || 'Authentication error'
-    );
+  // prettier-ignore
+  const {
+    product,
+    addToCartHandler,
+    qty,
+    setQty,
+    Link,
+    isLoading,
+    error } = useProductPageLogic();
 
   // Loading handling
   if (isLoading) return <Loader />;
-
-  // Add to cart and redirect
-  const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, qty }));
-    navigate('/cart');
-  };
 
   return (
     <>
