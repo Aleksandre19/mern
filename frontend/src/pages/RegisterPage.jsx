@@ -1,60 +1,23 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
-import { useRegisterMutation } from '../slices/userApi';
-import { setCredentials } from '../slices/auth';
-import { toast } from 'react-toastify';
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import useRegisterPageLogic from '../hooks/useRgisterPageLogic';
 
 const RegisterPage = () => {
-  // Component base states
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // Login action
-  const [register, { isLoading }] = useRegisterMutation();
-
-  // User info from local storage
-  const { userInfo } = useSelector((state) => state.auth);
-
-  // Check a ``redirect` query parameter in the URL
-  const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const redirect = searchParams.get('redirect') || '/';
-
-  // Redirect if user is authenticated
-  useEffect(() => {
-    if (userInfo) navigate(redirect);
-  }, [userInfo, redirect, navigate]);
-
-  // Register user
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    // Check if password matches
-    if (password !== confirmPassword) return toast.error('Passwords do not match');
-
-    // Register user
-    const { error, data } = await register({ name, email, password });
-
-    // Check error
-    if (error)
-      return toast.error(
-        error?.data || error?.data?.message || error.message || 'Authentication error'
-      );
-
-    // Set user credentials and redirect
-    dispatch(setCredentials({ ...data }));
-    toast.success(`Welcome, ${data.name}`);
-    navigate(redirect);
-  };
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    submitHandler,
+    isLoading,
+    Link,
+    redirect,
+  } = useRegisterPageLogic();
 
   return (
     <FormContainer>
