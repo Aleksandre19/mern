@@ -60,4 +60,32 @@ router.post(
   })
 );
 
+// @desc    Update a products
+// @route   PUT /api/products/:id
+// @access  Ptivate/Admin
+router.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const { name, price, description, image, brand, category, countInStock } =
+      req.body;
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) return res.status(404).send('Product not found.');
+
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.description = description || product.description;
+    product.image = image || product.image;
+    product.brand = brand || product.brand;
+    product.category = category || product.category;
+    product.countInStock = countInStock || product.countInStock;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  })
+);
+
 export default router;

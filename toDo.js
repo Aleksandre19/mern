@@ -28,3 +28,5 @@
 // Separate logics in usePayPal hook and rename it with useOrderPage
 
 // Error trace in terminal
+
+// Loading iacon doesn't show up

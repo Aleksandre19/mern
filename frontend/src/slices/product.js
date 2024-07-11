@@ -8,6 +8,7 @@ export const productSlice = () =>
         query: () => ({
           url: PRODUCTS_URL,
         }),
+        providesTags: ['Products'],
         keepUnusedDataFor: 5,
       }),
       getProductDetails: builder.query({
@@ -22,6 +23,14 @@ export const productSlice = () =>
         }),
         invalidatesTags: ['Products'], // Prevent Caching
       }),
+      updateProduct: builder.mutation({
+        query: (data) => ({
+          url: `${PRODUCTS_URL}/${data._id}`,
+          method: 'PUT',
+          body: data,
+        }),
+        invalidatesTags: ['Products'], // Prevent Caching
+      }),
     }),
   });
 
@@ -29,4 +38,5 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productSlice();
