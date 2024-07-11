@@ -24,7 +24,9 @@ const Header = () => {
     const { error, data } = await logoutApiCall();
 
     if (error)
-      return toast.error(error?.data?.message || error.message || 'Logout error');
+      return toast.error(
+        error?.data?.message || error.message || 'Logout error'
+      );
 
     dispatch(logout());
     toast.success(data.message || 'Logout successful');
@@ -59,13 +61,29 @@ const Header = () => {
                     <NavDropdown.Item as={Link} to='/profile'>
                       Profile
                     </NavDropdown.Item>
-                    <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
                   </NavDropdown>
                 </>
               ) : (
                 <Nav.Link as={Link} to='/login'>
                   <FaUser /> Sign In
                 </Nav.Link>
+              )}
+
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
