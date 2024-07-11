@@ -6,7 +6,13 @@ import { useGetProductsQuery } from '../../slices/product';
 import useProductListPage from '../../hooks/useProductListPage';
 
 const ProductListPage = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  // Current component custom hook
+  const { deleteHandler, createProductHandler } = useProductListPage(
+    products,
+    refetch
+  );
 
   if (isLoading) return <Loader />;
 
@@ -18,9 +24,6 @@ const ProductListPage = () => {
         'Authentication error'
     );
 
-  // Current component custom hook
-  const { deleteHandler } = useProductListPage(products);
-
   return (
     <>
       <Row className='justify-content-between'>
@@ -28,7 +31,7 @@ const ProductListPage = () => {
           <h1>Products</h1>
         </Col>
         <Col className='text-end'>
-          <Button className='btn-sm m-3'>
+          <Button className='btn-sm m-3' onClick={createProductHandler}>
             <FaEdit /> Creare Product
           </Button>
         </Col>

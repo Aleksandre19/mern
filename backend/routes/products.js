@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import Product from '../models/product.js';
+import { isAuth, isAdmin } from '../middlewares/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
 
@@ -31,6 +32,31 @@ router.get(
         .send('The product with the given ID was not found.');
 
     res.json(product);
+  })
+);
+
+// @desc Create a product
+// @route POST /api/products
+// @access Private/Admin
+router.post(
+  '/',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const product = new Product({
+      name: 'Sample name',
+      price: 0,
+      user: req.user._id,
+      image: '/images/sample.jpg',
+      brand: 'Sample brand',
+      category: 'Sample category',
+      countInStock: 0,
+      numReviews: 0,
+      description: 'Sample description',
+    });
+
+    const createdProduct = await product.save();
+    res.status(201).json(createdProduct);
   })
 );
 

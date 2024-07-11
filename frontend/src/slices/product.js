@@ -15,8 +15,18 @@ export const productSlice = () =>
           url: `${PRODUCTS_URL}/${id}`,
         }),
       }),
+      createProduct: builder.mutation({
+        query: () => ({
+          url: PRODUCTS_URL,
+          method: 'POST',
+        }),
+        invalidatesTags: ['Products'], // Prevent Caching
+      }),
     }),
   });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery } =
-  productSlice();
+export const {
+  useGetProductsQuery,
+  useGetProductDetailsQuery,
+  useCreateProductMutation,
+} = productSlice();
