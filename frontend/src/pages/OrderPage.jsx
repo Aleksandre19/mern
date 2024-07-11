@@ -1,62 +1,22 @@
-import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Card,
-} from 'react-bootstrap';
-import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { PayPalButtons } from '@paypal/react-paypal-js';
+import { Row, Col, ListGroup, Image, Button, Card } from 'react-bootstrap';
+import usePayPal from '../hooks/usePayPal';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import {
-  useGetOrderDetailsQuery,
-  usePayOrderMutation,
-  useGetPaypalClientIdQuery,
-} from '../slices/ordersApi';
 
 const OrderPage = () => {
-  const { id: orderId } = useParams();
   const {
-    data: order,
-    refetch,
+    order,
+    onApprove,
+    onApproveTest,
+    onError,
+    isPaying,
+    createOrder,
+    isPending,
     isLoading,
     error,
-  } = useGetOrderDetailsQuery(orderId);
-
-  // Payment
-  const [payOrder, { isLoading: isPaying }] = usePayOrderMutation();
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  const {
-    data: paypal,
-    isLoading: paypalLoading,
-    error: paypalError,
-  } = useGetPaypalClientIdQuery();
-  const { userInfo } = useSelector((state) => state.auth);
-
-  if (paypalError && paypalLoading && !paypal.clientId)
-    console.log('Need to handle error');
-
-  useEffect(() => {
-    const loadPayPalScript = async () => {
-      paypalDispatch({
-        type: 'resetOptions',
-        value: {
-          'client-id': paypal.clientId,
-          currency: 'USD',
-        },
-      });
-
-      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-    };
-
-    if (order && !order.isPaid && !window.paypal) loadPayPalScript();
-  }, [order, paypal, paypalDispatch, paypalLoading, paypalError]);
+  } = usePayPal();
 
   if (isLoading) return <Loader />;
 
@@ -154,7 +114,27 @@ const OrderPage = () => {
                   <Col> ${order.totalPrice} </Col>
                 </Row>
               </ListGroup.Item>
-              {/* PAY ORDER PLACEHOLDER */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {isPaying && <Loader />}
+                  {isPending && <Loader />}
+                  <div>
+                    <Button
+                      onClick={onApproveTest}
+                      style={{ marginBottom: '10px' }}
+                    >
+                      Test Pay Order
+                    </Button>
+                  </div>
+                  <div>
+                    <PayPalButtons
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onError={onError}
+                    ></PayPalButtons>
+                  </div>
+                </ListGroup.Item>
+              )}
               {/* MARK AS DELIVERED PLACEHOLDER */}
             </ListGroup>
           </Card>

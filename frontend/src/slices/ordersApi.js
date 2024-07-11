@@ -17,8 +17,8 @@ export const ordersApi = apiClice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
     payOrder: builder.mutation({
-      query: (orderId, details) => ({
-        url: `${ORDERS_URL}/${orderId}/pay`,
+      query: ({ orderId, details }) => ({
+        url: `${ORDERS_URL}/${orderId}`,
         method: 'PUT',
         body: { ...details },
       }),
