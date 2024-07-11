@@ -3,10 +3,10 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import useOrderPage from '../hooks/useOrderPage';
+import usePlaceOrderPage from '../hooks/usePlaceOrderPage';
 
 function PlaceOrderPage() {
-  const { placeOrderHandler, cart, isLoading, error } = useOrderPage();
+  const { placeOrderHandler, cart, isLoading, error } = usePlaceOrderPage();
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -32,7 +32,7 @@ function PlaceOrderPage() {
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
-                <ListGroup variant='flush'>
+                <ListGroup.Item variant='flush'>
                   {cart.cartItems.map((item, index) => (
                     <Row key={index}>
                       <Col md={1}>
@@ -46,7 +46,7 @@ function PlaceOrderPage() {
                       </Col>
                     </Row>
                   ))}
-                </ListGroup>
+                </ListGroup.Item>
               )}
             </ListGroup.Item>
           </ListGroup>

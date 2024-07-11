@@ -56,7 +56,6 @@ router.get(
   isAuth,
   asyncHandler(async (req, res) => {
     const myOrders = await Order.find({ user: req.user._id });
-    res.status(200).json(myOrders);
 
     if (!myOrders) return res.status(404).json('No orders found');
 
@@ -76,6 +75,9 @@ router.get(
       'user',
       'name email'
     );
+
+    if (!order) return res.status(404).json('Order not found');
+    res.status(200).json(order);
   })
 );
 
