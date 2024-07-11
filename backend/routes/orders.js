@@ -87,9 +87,10 @@ router.get(
 router.get(
   '/',
   isAuth,
-  isAdmin,
   asyncHandler(async (req, res) => {
-    res.send('Get all orders');
+    const orders = await Order.find({ user: req.user._id });
+    if (!orders) return res.status(404).json('No orders found');
+    res.status(200).json(orders);
   })
 );
 
