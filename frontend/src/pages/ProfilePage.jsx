@@ -1,64 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useProfileMutation } from '../slices/userApi';
-import { setCredentials } from '../slices/auth';
-import { useGetUsersOrdersQuery } from '../slices/ordersApi';
+import useProfilePage from '../hooks/useProfilePage';
 
 const ProfilePage = () => {
+  // Component based state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const dispatch = useDispatch();
+  // Current component hook
+  const { orders, submitHandler, isLoading, ordersLoading, ordersError } =
+    useProfilePage(name, email, password, confirmPassword, setName, setEmail);
 
-  const { userInfo } = useSelector((state) => state.auth);
-
-  const [updateProfile, { isLoading }] = useProfileMutation();
-
-  const {
-    data: orders,
-    isLoading: ordersLoading,
-    error: ordersError,
-  } = useGetUsersOrdersQuery();
-
-  useEffect(() => {
-    if (!userInfo) return;
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo, userInfo.name, userInfo.email]);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    // Check if password matches
-    if (password !== confirmPassword)
-      return toast.error('Passwords do not match');
-
-    const { data, error } = await updateProfile({
-      _id: userInfo._id,
-      name,
-      email,
-      password,
-    });
-
-    if (error)
-      return toast.error(
-        error?.data ||
-          error?.data?.message ||
-          error.message ||
-          'Could not update profile'
-      );
-
-    dispatch(setCredentials(data));
-    toast.success('Profile updated successfully');
-  };
   return (
     <Row>
       <Col md={3}>
