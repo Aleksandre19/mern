@@ -1,16 +1,21 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import {
   usePayOrderMutation,
   useGetPaypalClientIdQuery,
   useGetOrderDetailsQuery,
+  useDeliverOrderMutation,
 } from '../slices/ordersApi';
 import { toast } from 'react-toastify';
 
 const usePayPal = () => {
   // Grab orders ID
   const { id: orderId } = useParams();
+
+  // Get user info from the state
+  const { userInfo } = useSelector((state) => state.auth);
 
   // Get orders details
   const {
@@ -20,9 +25,13 @@ const usePayPal = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
-  // Database Order updating action
+  // Order updating endpoint
   const [payOrder, { isLoading: isPaying }] = usePayOrderMutation();
 
+  // Mark as delivered endpint - Admin
+  const [deliverOrder, { isLoading: isDelivering }] = useDeliverOrderMutation();
+
+  // PapPal script reducer
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   // Get PayPal Client ID.
@@ -96,15 +105,32 @@ const usePayPal = () => {
       });
   };
 
+  // Mark order as delivered - Admin
+  const deliverHandler = async () => {
+    // Order by Id
+    const delivered = await deliverOrder(orderId);
+
+    // Handle error
+    if (!delivered) return toast.error('Could not find delivery');
+
+    refetch();
+
+    // Handle success
+    toast.success('Order delivered');
+  };
+
   return {
     order,
     onApprove,
     onApproveTest,
     onError,
     createOrder,
+    deliverHandler,
+    userInfo,
     isPaying,
     isPending,
     isLoading,
+    isDelivering,
     error,
   };
 };

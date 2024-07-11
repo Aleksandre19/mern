@@ -13,8 +13,11 @@ const OrderPage = () => {
     onError,
     isPaying,
     createOrder,
+    deliverHandler,
+    userInfo,
     isPending,
     isLoading,
+    isDelivering,
     error,
   } = usePayPal();
 
@@ -135,7 +138,22 @@ const OrderPage = () => {
                   </div>
                 </ListGroup.Item>
               )}
-              {/* MARK AS DELIVERED PLACEHOLDER */}
+
+              {isDelivering && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type='button'
+                      className='btn btn-block'
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>
