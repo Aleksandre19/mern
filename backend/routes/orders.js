@@ -28,7 +28,7 @@ router.post(
 
     const orderItemsWithProductID = orderItems.map((i) => ({
       ...i,
-      produc: i._id,
+      product: i._id,
       _id: undefined,
     }));
 

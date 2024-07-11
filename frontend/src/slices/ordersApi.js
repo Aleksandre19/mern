@@ -1,14 +1,13 @@
-import { method } from 'lodash';
-import { apiSlice } from '../utils/apiSlice';
-import { ORDERS_URL } from '../utils/constants';
+import { apiClice } from './api';
+import { ORDERS_URL } from '../constants';
 
-export const ordersApi = apiSlice.injectEndpoints({
+export const ordersApi = apiClice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutationa({
-      query: (order) => ({
+    createOrder: builder.mutation({
+      query: (data) => ({
         url: ORDERS_URL,
         method: 'POST',
-        body: { ...order },
+        body: { ...data },
       }),
     }),
   }),
