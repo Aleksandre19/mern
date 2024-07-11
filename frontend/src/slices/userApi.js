@@ -25,7 +25,19 @@ export const userApi = () =>
           method: 'POST',
         }),
       }),
+      profile: builder.mutation({
+        query: (data) => ({
+          url: USERS_URL,
+          method: 'PUT',
+          body: data,
+        }),
+      }),
     }),
   });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = userApi();
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useProfileMutation,
+} = userApi();

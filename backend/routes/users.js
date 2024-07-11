@@ -6,6 +6,7 @@ import User from '../models/user.js';
 import { validateAuthUser, validateRegUser } from '../models/user.js';
 import { setAuthCookie } from '../utils/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
+import { isAuth } from '../middlewares/auth.js';
 
 // @desc Authe User
 // @route POST /api/users/auth
@@ -26,7 +27,8 @@ router.post(
 
     // Validate passwor
     const validPassword = await bcryptjs.compare(password, user.password);
-    if (!validPassword) return res.status(400).json('Invalide email or password.');
+    if (!validPassword)
+      return res.status(400).json('Invalide email or password.');
 
     // Generate Token and store it in HTTP-Only cookie
     const token = user.generateAuthToken();
@@ -72,6 +74,26 @@ router.post(
     res.clearCookie('mern_jwt');
 
     res.status(200).json('User is logged out');
+  })
+);
+
+// @desc Update user
+// @route PUT /api/users/
+// @access Private
+router.put(
+  '/',
+  isAuth,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (!user) return res.status(404).json('User not found');
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.password = req.body.password || user.password;
+
+    const updatedUser = await user.save();
+    res.status(200).json(updatedUser);
   })
 );
 
