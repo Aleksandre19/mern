@@ -26,3 +26,5 @@
 // x Join Controllers and Routes
 
 // Separate logics in usePayPal hook and rename it with useOrderPage
+
+// Error trace in terminal
