@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-const colors = require('colors');
-const users = require('./users');
-const products = require('./products');
-const User = require('../models/user');
-const Product = require('../models/product');
-const Order = require('../models/order');
-require('../startup/db')();
+import dotenv from 'dotenv';
+dotenv.config();
+import colors from 'colors';
+import users from './users.js';
+import products from './products.js';
+import User from '../models/user.js';
+import Product from '../models/product.js';
+import Order from '../models/order.js';
+import db from '../startup/db.js';
+db();
 
 const importData = async () => {
   try {

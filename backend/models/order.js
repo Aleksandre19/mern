@@ -19,7 +19,7 @@ const shippingAddressSchema = new mongoose.Schema({
   country: { type: String, required: true },
 });
 
-const paymentMethodSchema = new mongoose.Schema({
+const paymentResultSchema = new mongoose.Schema({
   id: { type: String },
   status: { type: String },
   update_time: { type: String },
@@ -39,7 +39,7 @@ const orderSchem = new mongoose.Schema(
       type: String,
       required: true,
     },
-    paymentMethod: paymentMethodSchema,
+    paymentResult: paymentResultSchema,
     itemsPrice: {
       type: Number,
       required: true,
