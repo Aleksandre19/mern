@@ -9,13 +9,13 @@ const Loader = () => {
       role='status'
       variant='primary'
       style={{
-        width: '100px',
-        height: '100px',
+        width: '50px',
+        height: '50px',
         margin: 'auto',
         display: 'block',
         position: 'absolute',
-        top: '0',
-        right: '0',
+        top: '10px',
+        right: '20px',
       }}
     ></Spinner>
   );

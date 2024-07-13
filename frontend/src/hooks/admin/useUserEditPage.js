@@ -19,7 +19,7 @@ const useProductEditPage = (
   const { id: _id } = useParams();
   const navigate = useNavigate();
 
-  // User by Id
+  // Find user by Id
   const {
     data: user,
     isLoading: userLoading,
@@ -37,8 +37,7 @@ const useProductEditPage = (
   }, [user]);
 
   // User update endpoint
-  const [updateUser, { isLoading: updateLoading, error: updateError }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading: updateLoading }] = useUpdateUserMutation();
 
   // Submit handler
   const submitHandler = async (e) => {
@@ -61,7 +60,6 @@ const useProductEditPage = (
     userLoading,
     updateLoading,
     userError,
-    updateError,
   };
 };
 

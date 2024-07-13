@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import ButtonWithLoader from '../../components/ButtonWithLoader';
 import FormContainer from '../../components/FormContainer';
 import useUserEditPage from '../../hooks/admin/useUserEditPage';
+import { toast } from 'react-toastify';
 
 const UserEditPage = () => {
   // Component based state
@@ -12,17 +15,11 @@ const UserEditPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Current component custom hook
-  const { submitHandler, userLoading, updateLoading } = useUserEditPage(
-    name,
-    setName,
-    email,
-    setEmail,
-    isAdmin,
-    setIsAdmin
-  );
+  const { submitHandler, userLoading, updateLoading, userError } =
+    useUserEditPage(name, setName, email, setEmail, isAdmin, setIsAdmin);
 
-  // Handle loading
-  if (userLoading) return <Loader />;
+  // // Handle errorss
+  if (userError) return <Message variant='danger'>{userError.data}</Message>;
 
   return (
     <>
@@ -30,7 +27,7 @@ const UserEditPage = () => {
         Go Back
       </Link>
 
-      {updateLoading && <Loader />}
+      {userLoading && <Loader />}
 
       <FormContainer>
         <h1>Edit user</h1>
@@ -65,9 +62,11 @@ const UserEditPage = () => {
             ></Form.Check>
           </Form.Group>
 
-          <Button type='submit' variant='primary' className='my-4'>
-            Update
-          </Button>
+          <ButtonWithLoader
+            loading={updateLoading}
+            text='Updating'
+            className='my-1'
+          />
         </Form>
       </FormContainer>
     </>
