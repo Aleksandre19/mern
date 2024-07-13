@@ -1,4 +1,4 @@
-import { PRODUCTS_URL } from '../constants';
+import { PRODUCTS_URL, UPLOADS_URL } from '../constants';
 import { apiClice } from './api';
 
 export const productSlice = () =>
@@ -31,6 +31,13 @@ export const productSlice = () =>
         }),
         invalidatesTags: ['Products'], // Prevent Caching
       }),
+      uploadImage: builder.mutation({
+        query: (data) => ({
+          url: `${UPLOADS_URL}`,
+          method: 'POST',
+          body: data,
+        }),
+      }),
     }),
   });
 
@@ -39,4 +46,5 @@ export const {
   useGetProductDetailsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
+  useUploadImageMutation,
 } = productSlice();

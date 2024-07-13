@@ -4,15 +4,17 @@ import { Form, Button } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
-import {
-  useUpdateProductMutation,
-  useGetProductDetailsQuery,
-} from '../../slices/product';
+import useProductEditPage from '../../hooks/admin/useProductEditPage';
+// import {
+//   useUpdateProductMutation,
+//   useGetProductDetailsQuery,
+//   useUploadImageMutation,
+// } from '../../slices/product';
 
 const ProductEditPage = () => {
-  // Product Id
-  const { id: prodyctId } = useParams();
-  const navigate = useNavigate();
+  // // Product Id
+  // const { id: prodyctId } = useParams();
+  // const navigate = useNavigate();
 
   // Component based state
   const [name, setName] = useState('');
@@ -23,82 +25,115 @@ const ProductEditPage = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
 
-  // Product by Id
   const {
-    data: product,
-    isLoading: productLoading,
-    refetch,
-    error: productError,
-  } = useGetProductDetailsQuery(prodyctId);
+    submitHandler,
+    uploadImageHandler,
+    productLoading,
+    updateLoading,
+    uploadLoading,
+    productError,
+    updateError,
+    uploadError,
+  } = useProductEditPage(
+    name,
+    setName,
+    price,
+    setPrice,
+    image,
+    setImage,
+    brand,
+    setBrand,
+    category,
+    setCategory,
+    countInStock,
+    setCountInStock,
+    description,
+    setDescription
+  );
 
-  // Update product endpoint
-  const [updateProduct, { isLoading: updateLoading, error: updateError }] =
-    useUpdateProductMutation();
+  // // Product by Id
+  // const {
+  //   data: product,
+  //   isLoading: productLoading,
+  //   refetch,
+  //   error: productError,
+  // } = useGetProductDetailsQuery(prodyctId);
 
-  // Update state
-  useEffect(() => {
-    if (!product) return;
-    setName(product.name);
-    setPrice(product.price);
-    setImage(product.image);
-    setBrand(product.brand);
-    setCategory(product.category);
-    setCountInStock(product.countInStock);
-    setDescription(product.description);
-  }, [product]);
+  // // Update product endpoint
+  // const [updateProduct, { isLoading: updateLoading, error: updateError }] =
+  //   useUpdateProductMutation();
 
-  // Submit handler
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  // // Upload image endpoint
+  // const [uploadImage, { isLoading: uploadLoading, error: uploadError }] =
+  //   useUploadImageMutation();
 
-    // Product structure for updating
-    const updatedProduct = {
-      _id: prodyctId,
-      name,
-      price,
-      image,
-      brand,
-      category,
-      countInStock,
-      description,
-    };
+  // // Update state
+  // useEffect(() => {
+  //   if (!product) return;
+  //   setName(product.name);
+  //   setPrice(product.price);
+  //   setImage(product.image);
+  //   setBrand(product.brand);
+  //   setCategory(product.category);
+  //   setCountInStock(product.countInStock);
+  //   setDescription(product.description);
+  // }, [product]);
 
-    // Update product request
-    const result = await updateProduct(updatedProduct);
+  // // Submit handler
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
 
-    // Handle error
-    if (result.error)
-      return toast.error(
-        result.error?.data ||
-          result.error?.data?.message ||
-          result.error.message ||
-          'Authentication error'
-      );
+  //   // Product structure for updating
+  //   const updatedProduct = {
+  //     _id: prodyctId,
+  //     name,
+  //     price,
+  //     image,
+  //     brand,
+  //     category,
+  //     countInStock,
+  //     description,
+  //   };
 
-    // Handle success
-    toast.success('Product updated successfully');
-    navigate('/admin/productlist');
-  };
+  //   // Update product request
+  //   const result = await updateProduct(updatedProduct);
+
+  //   // Handle error
+  //   if (result.error)
+  //     return toast.error(
+  //       result.error?.data ||
+  //         result.error?.data?.message ||
+  //         result.error.message ||
+  //         'Authentication error'
+  //     );
+
+  //   // Handle success
+  //   toast.success('Product updated successfully');
+  //   navigate('/admin/productlist');
+  // };
+
+  // // Upload image handler
+  // const uploadImageHandler = async (e) => {
+  //   const formData = new FormData();
+  //   formData.append('image', e.target.files[0]);
+
+  //   const { data, error } = await uploadImage(formData);
+  //   if (error) return toast.error(error.data.message);
+
+  //   toast.success(data.message);
+  //   setImage(data.image);
+  // };
 
   // Handle loading
-  if (productLoading || updateLoading) return <Loader />;
+  if (productLoading || updateLoading || uploadLoading) return <Loader />;
 
   // Handle error
-  if (productError)
-    return toast.error(
-      productError?.data ||
-        productError?.data?.message ||
-        productError.message ||
-        'Could not fetch product'
-    );
-
-  // Handle error
-  if (updateError)
+  if (updateError || productError || uploadError)
     return toast.error(
       updateError?.data ||
         updateError?.data?.message ||
         updateError.message ||
-        'Could not update product'
+        'Could not fulfill request'
     );
 
   return (
@@ -129,7 +164,22 @@ const ProductEditPage = () => {
             ></Form.Control>
           </Form.Group>
 
-          {/* IMAGE UNPUT PLACE HOLDER */}
+          <Form.Group controlId='image' className='my-2'>
+            <Form.Label>Image</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter image'
+              value={image}
+              onChange={() => setImage}
+            ></Form.Control>
+
+            <Form.Control
+              type='file'
+              label='Choose file'
+              onChange={uploadImageHandler}
+            ></Form.Control>
+          </Form.Group>
+
           <Form.Group className='mb-2' controlId='brand'>
             <Form.Label>Brand</Form.Label>
             <Form.Control
