@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcryptjs from 'bcryptjs';
 import Joi from 'joi';
+import jId from 'joi-objectid';
+Joi.objectId = jId(Joi);
 
 const userSchema = new mongoose.Schema(
   {
@@ -69,6 +71,17 @@ const validateRegUser = (user) => {
   return schema.validate(user);
 };
 
+const validateUpdateUser = (user) => {
+  const schema = Joi.object({
+    _id: Joi.objectId().required(),
+    name: Joi.string().min(2).max(50).required(),
+    email: Joi.string().min(5).max(255).required().email(),
+    isAdmin: Joi.boolean().required(),
+  });
+
+  return schema.validate(user);
+};
+
 const User = mongoose.model('User', userSchema);
-export { validateAuthUser, validateRegUser };
+export { validateAuthUser, validateRegUser, validateUpdateUser };
 export default User;

@@ -10,7 +10,7 @@ db();
 import logger from './startup/logger.js';
 logger();
 
-import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
+// import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 const app = express();
 import products from './routes/products.js';
@@ -35,8 +35,8 @@ app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/uploads', uploads);
 
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

@@ -32,3 +32,9 @@
 // Loading iacon doesn't show up
 
 // error and loading refactoring
+
+// Incorporate validations in routes.
+
+// Use lodash
+
+// Cancel/Check custom validation error;
