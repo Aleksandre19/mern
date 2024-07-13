@@ -1,22 +1,35 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
-import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import Loader from '../../components/Loader';
 import { useGetProductsQuery } from '../../slices/product';
-import useProductListPage from '../../hooks/useProductListPage';
+import useProductListPage from '../../hooks/admin/useProductListPage';
 
 const ProductListPage = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  // Get current product
+  const {
+    data: products,
+    isLoading: getProductLoading,
+    error: getProductError,
+    refetch,
+  } = useGetProductsQuery();
 
   // Current component custom hook
-  const { deleteHandler, createProductHandler } = useProductListPage(
-    products,
-    refetch
-  );
+  const {
+    deleteHandler,
+    createProductHandler,
+    createProductLoading,
+    deleteProductLoading,
+    createProductError,
+    deleteProductError,
+  } = useProductListPage(products, refetch);
 
-  if (isLoading) return <Loader />;
+  // Handle loadings
+  if (getProductLoading || createProductLoading || deleteProductLoading)
+    return <Loader />;
 
-  if (error)
+  // Handle errors
+  if (getProductError || createProductError || deleteProductError)
     return toast.error(
       error?.data ||
         error?.data?.message ||

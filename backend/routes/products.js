@@ -88,4 +88,21 @@ router.put(
   })
 );
 
+// @desc    Delete a products
+// @route   DELETE /api/products/:id
+// @access  Ptivate/Admin
+router.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) return res.status(404).send('Product not found.');
+
+    await product.deleteOne({ _id: product._id });
+    res.status(200).send('product deleted');
+  })
+);
+
 export default router;
