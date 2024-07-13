@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
+import objectId from 'joi-objectid';
+Joi.objectId = objectId(Joi);
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -84,16 +86,14 @@ const productSchema = new mongoose.Schema(
 
 const validateProduct = (product) => {
   const schema = Joi.object({
-    user: Joi.objectId().required(),
-    name: Joi.string().required(),
-    image: Joi.string().required(),
-    brand: Joi.string().required(),
-    category: Joi.string().required(),
-    description: Joi.string().required(),
-    reviews: Joi.array().items(reviewSchema),
-    rating: Joi.number().required(),
-    numReviews: Joi.number().required(),
-    price: Joi.number().required(),
+    _id: Joi.objectId(),
+    name: Joi.string(),
+    price: Joi.number(),
+    image: Joi.string(),
+    brand: Joi.string(),
+    category: Joi.string(),
+    countInStock: Joi.number(),
+    description: Joi.string(),
   });
 
   return schema.validate(product);

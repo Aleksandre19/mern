@@ -43,6 +43,7 @@ export const productSlice = () =>
           url: `${PRODUCTS_URL}/${productId}`,
           method: 'DELETE',
         }),
+        invalidatesTags: ['Products'], // Prevent Caching
       }),
     }),
   });

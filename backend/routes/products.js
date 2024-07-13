@@ -1,10 +1,12 @@
 import express from 'express';
 const router = express.Router();
-
+import _ from 'lodash';
 import Product from '../models/product.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
+import { validateProduct } from '../models/product.js';
+import { handleDb, handleError } from '../utils/handleDb.js';
 
 // @desc Get all products
 // @route GET /api/products
@@ -12,8 +14,15 @@ import validateObjectId from '../middlewares/validateObjectId.js';
 router.get(
   '/',
   asyncHandler(async (req, res) => {
-    const products = await Product.find({});
-    res.json(products);
+    // Get products
+    const { data, error } = await handleDb(Product.find({}));
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('Products not found');
+
+    // Send response
+    res.json(data);
   })
 );
 
@@ -24,14 +33,15 @@ router.get(
   '/:id',
   validateObjectId,
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    // Find product
+    const { data, error } = await handleDb(Product.findById(req.params.id));
 
-    if (!product)
-      return res
-        .status(404)
-        .send('The product with the given ID was not found.');
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('Product not found');
 
-    res.json(product);
+    // Send response
+    res.json(data);
   })
 );
 
@@ -43,6 +53,7 @@ router.post(
   isAuth,
   isAdmin,
   asyncHandler(async (req, res) => {
+    // Products dummy data
     const product = new Product({
       name: 'Sample name',
       price: 0,
@@ -55,26 +66,45 @@ router.post(
       description: 'Sample description',
     });
 
-    const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+    // Create product
+    const { data, error } = await handleDb(product.save());
+
+    // Handle server and notfound errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('Product not found');
+
+    // Send response
+    res.status(201).json(data);
   })
 );
 
-// @desc    Update a products
+// @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Ptivate/Admin
 router.put(
   '/:id',
   isAuth,
   isAdmin,
+  validateObjectId,
   asyncHandler(async (req, res) => {
+    // Validate input
+    const { error } = validateProduct(req.body);
+    if (error) return res.status(400).json(error.details[0].message);
+
+    // Pick product fileds from requesr body
     const { name, price, description, image, brand, category, countInStock } =
       req.body;
 
-    const product = await Product.findById(req.params.id);
+    // Find product
+    const { data: product, error: productError } = await handleDb(
+      Product.findById(req.params.id)
+    );
 
+    // Handle server and not found errors
+    if (productError) handleError(productError, res);
     if (!product) return res.status(404).send('Product not found.');
 
+    // Set product fields
     product.name = name || product.name;
     product.price = price || product.price;
     product.description = description || product.description;
@@ -83,8 +113,14 @@ router.put(
     product.category = category || product.category;
     product.countInStock = countInStock || product.countInStock;
 
-    const updatedProduct = await product.save();
-    res.status(200).json(updatedProduct);
+    // Update product
+    const { data: upProduct, error: upError } = await handleDb(product.save());
+
+    // Handle server error
+    if (upError) handleError(upError, res);
+
+    // Send response
+    res.status(200).json(upProduct);
   })
 );
 
@@ -95,13 +131,27 @@ router.delete(
   '/:id',
   isAuth,
   isAdmin,
+  validateObjectId,
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
+    // Find product
+    const { data: product, error } = await handleDb(
+      Product.findById(req.params.id)
+    );
 
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!product) return res.status(404).send('Product not found.');
 
-    await Product.deleteOne({ _id: product._id });
-    res.status(200).send('product deleted');
+    // Delete product
+    const { deleteError } = await handleDb(
+      Product.deleteOne({ _id: product._id })
+    );
+
+    // Handle server error
+    if (deleteError) handleError(deleteError, res);
+
+    // Send response
+    res.status(200).send('product deleted successfully');
   })
 );
 

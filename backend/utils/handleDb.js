@@ -10,7 +10,7 @@ const handleDb = async (dbOperation) => {
 };
 
 const handleError = (error, res) => {
-  logger.error(error);
+  logger.error(`Error Trace: ${error.stack}`);
   return res.status(500).json('Server error');
 };
 

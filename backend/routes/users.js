@@ -13,7 +13,6 @@ import asyncHandler from '../middlewares/asyncHandler.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
 import { handleDb, handleError } from '../utils/handleDb.js';
-import logger from '../services/logger.js';
 
 // @desc Get all users
 // @route GET /api/users
