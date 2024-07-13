@@ -32,6 +32,13 @@ export const userApi = () =>
           body: data,
         }),
       }),
+      getUsers: builder.query({
+        query: () => ({
+          url: USERS_URL,
+        }),
+        providesTags: ['Users'], // Remove from cache when user is updated
+        keepUnusedDataFor: 5,
+      }),
     }),
   });
 
@@ -40,4 +47,5 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useProfileMutation,
+  useGetUsersQuery,
 } = userApi();
