@@ -1,38 +1,22 @@
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Spinner } from 'react-bootstrap';
 import { FaTimes, FaTrash, FaEdit, FaCheck } from 'react-icons/fa';
 import Loader from '../../components/Loader';
-import { toast } from 'react-toastify';
-import { useGetUsersQuery, useDeleteUserMutation } from '../../slices/userApi';
+import Message from '../../components/Message';
+import useUserListPage from '../../hooks/admin/useUserListPage';
 
 const UserListPage = () => {
-  const {
-    data: users,
-    refetch,
-    isLoading: userLoading,
-    error: userError,
-  } = useGetUsersQuery();
+  // Custom hook
+  const { users, deleteHandler, userLoading, userError, deleteLoading } =
+    useUserListPage();
 
-  const [deleteUser, { isLoading: deleteLoading, error: deleteError }] =
-    useDeleteUserMutation();
-
-  const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      const { data, error } = await deleteUser(id);
-
-      if (error) return toast.error(error?.data || error?.data?.message);
-
-      refetch();
-      toast.success(data);
-    }
-  };
-
+  // Handle loading and errors
   if (userLoading) return <Loader />;
+  if (userError) return <Message variant='danger'>{userError.data}</Message>;
 
   return (
     <>
       <h1>Users</h1>
-      {deleteLoading && <Loader />}
       <Table striped bordered hover responsive className='table-sm'>
         <thead>
           <tr>
@@ -43,14 +27,17 @@ const UserListPage = () => {
             <th></th>
           </tr>
         </thead>
+
         <tbody>
           {users.map((user) => (
             <tr key={user._id}>
               <td>{user._id}</td>
               <td>{user.name}</td>
+
               <td>
                 <a href={`mailto:${user.email}`}>{user.email}</a>
               </td>
+
               <td>
                 {user.isAdmin ? (
                   <FaCheck style={{ color: 'green' }} />
@@ -58,6 +45,7 @@ const UserListPage = () => {
                   <FaTimes style={{ color: 'red' }} />
                 )}
               </td>
+
               <td>
                 <LinkContainer to={`/admin/user/${user._id}/edit`}>
                   <Button variant='light' className='btn-sm'>
@@ -70,7 +58,18 @@ const UserListPage = () => {
                   className='btn-sm'
                   onClick={() => deleteHandler(user._id)}
                 >
-                  <FaTrash style={{ color: 'white' }} />
+                  {deleteLoading ? (
+                    <Spinner
+                      as='span'
+                      animation='border'
+                      size='sm'
+                      role='status'
+                      aria-hidden='true'
+                      style={{ marginRight: '10px' }}
+                    />
+                  ) : (
+                    <FaTrash style={{ color: 'white' }} />
+                  )}
                 </Button>
               </td>
             </tr>
