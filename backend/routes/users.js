@@ -12,6 +12,7 @@ import { setAuthCookie } from '../utils/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
+import { handleDb, handleError } from '../utils/handleDb.js';
 import logger from '../services/logger.js';
 
 // @desc Get all users
@@ -22,8 +23,15 @@ router.get(
   isAuth,
   isAdmin,
   asyncHandler(async (req, res) => {
-    const users = await User.find({});
-    res.status(200).json(users);
+    // Get users
+    const { data, error } = await handleDb(User.find({}));
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('Users not found');
+
+    // Send response
+    res.status(200).json(data);
   })
 );
 
@@ -37,9 +45,12 @@ router.get(
   validateObjectId,
   asyncHandler(async (req, res) => {
     // Find user
-    const user = await User.findById(req.params.id).select('-password');
+    const { data: user, error } = await handleDb(
+      User.findById(req.params.id).select('-password')
+    );
 
-    // Handle error
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!user) return res.status(404).json('User not found');
 
     // Return user
@@ -60,8 +71,13 @@ router.post(
     // Unpack users credentials
     const { email, password } = req.body;
 
-    // Validate email
-    const user = await User.findOne({ email });
+    // Find user
+    const { data: user, error: userError } = await handleDb(
+      User.findOne({ email })
+    );
+
+    // Handle server and not found errors
+    if (userError) handleError(userError, res);
     if (!user) return res.status(401).json('Invalid email or password');
 
     // Validate passwor
@@ -88,19 +104,27 @@ router.post(
     const { error } = validateRegUser(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
-    // Check if user exists
-    let user = await User.findOne({ email: req.body.email });
+    // Find user
+    let { data: user, error: userError } = await handleDb(
+      User.findOne({ email: req.body.email })
+    );
+
+    // Handle server and not found errors
+    if (userError) handleError(userError, res);
     if (user) return res.status(400).json('User already exists');
 
     // Create user
     user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
-    await user.save();
+    const { data: newUser, error: newError } = await handleDb(user.save());
+
+    // Handle Db error
+    if (newError) handleError(newError, res);
 
     // Generate Token and store it in HTTP-Only cookie
-    const token = user.generateAuthToken();
+    const token = newUser.generateAuthToken();
     setAuthCookie(res, token);
 
-    res.send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
+    res.send(_.pick(newUser, ['_id', 'name', 'email', 'isAdmin']));
   })
 );
 
@@ -124,17 +148,23 @@ router.put(
   isAuth,
   asyncHandler(async (req, res) => {
     // Find user
-    const user = await User.findById(req.user._id);
+    const { data: user, error } = await handleDb(User.findById(req.user._id));
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!user) return res.status(404).json('User not found');
 
     // Update user
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.password = req.body.password || user.password;
-    const updatedUser = await user.save();
+    const { data: upUser, error: upError } = await handleDb(user.save());
+
+    // Handle server error
+    if (upError) handleError(upError, res);
 
     // Return update user
-    res.status(200).json(updatedUser);
+    res.status(200).json(upUser);
   })
 );
 
@@ -152,20 +182,22 @@ router.put(
     if (error) return res.status(400).json(error.details[0].message);
 
     // Find user
-    const user = await User.findById(req.params.id);
+    const { data: user, error: userError } = await handleDb(
+      User.findById(req.params.id)
+    );
+
+    // Handle server and not found errors
+    if (userError) handleError(userError, res);
     if (!user) return res.status(404).json('User not found');
 
     // Update user
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.isAdmin = req.body.isAdmin || user.isAdmin;
-    const { error: updateError } = await user.save();
+    const { error: updateError } = await handleDb(user.save());
 
-    // Handle update error
-    if (updateError) {
-      logger.error(updateError);
-      return res.status(400).json('User could not be updated');
-    }
+    // Handle server error
+    if (updateError) handleError(updateError, res);
 
     // Send response
     res.status(200).json('User updated successfully');
@@ -182,20 +214,20 @@ router.delete(
   validateObjectId,
   asyncHandler(async (req, res) => {
     // Find user
-    const user = await User.findById(req.params.id);
+    const { data: user, error } = await handleDb(User.findById(req.params.id));
 
-    // Handle errors
+    // Handle server, not found and admin errors
+    if (error) handleError(error, res);
     if (!user) return res.status(404).json('User not found');
     if (user.isAdmin) return res.status(400).json('Cannot delete admin');
 
     // Delete user
-    const { error } = await User.deleteOne({ _id: req.params.id });
+    const { error: deleteError } = await handleDb(
+      User.deleteOne({ _id: req.params.id })
+    );
 
-    // Handle deletion errors
-    if (error) {
-      logger.error(error);
-      return res.status(400).json('User could not be deleted');
-    }
+    // Handle server
+    if (deleteError) handleError(deleteError, res);
 
     // Send response
     res.status(200).json('User deleted successfully');
