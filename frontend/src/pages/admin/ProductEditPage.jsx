@@ -1,21 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
 import useProductEditPage from '../../hooks/admin/useProductEditPage';
-// import {
-//   useUpdateProductMutation,
-//   useGetProductDetailsQuery,
-//   useUploadImageMutation,
-// } from '../../slices/product';
 
 const ProductEditPage = () => {
-  // // Product Id
-  // const { id: prodyctId } = useParams();
-  // const navigate = useNavigate();
-
   // Component based state
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -50,79 +41,6 @@ const ProductEditPage = () => {
     description,
     setDescription
   );
-
-  // // Product by Id
-  // const {
-  //   data: product,
-  //   isLoading: productLoading,
-  //   refetch,
-  //   error: productError,
-  // } = useGetProductDetailsQuery(prodyctId);
-
-  // // Update product endpoint
-  // const [updateProduct, { isLoading: updateLoading, error: updateError }] =
-  //   useUpdateProductMutation();
-
-  // // Upload image endpoint
-  // const [uploadImage, { isLoading: uploadLoading, error: uploadError }] =
-  //   useUploadImageMutation();
-
-  // // Update state
-  // useEffect(() => {
-  //   if (!product) return;
-  //   setName(product.name);
-  //   setPrice(product.price);
-  //   setImage(product.image);
-  //   setBrand(product.brand);
-  //   setCategory(product.category);
-  //   setCountInStock(product.countInStock);
-  //   setDescription(product.description);
-  // }, [product]);
-
-  // // Submit handler
-  // const submitHandler = async (e) => {
-  //   e.preventDefault();
-
-  //   // Product structure for updating
-  //   const updatedProduct = {
-  //     _id: prodyctId,
-  //     name,
-  //     price,
-  //     image,
-  //     brand,
-  //     category,
-  //     countInStock,
-  //     description,
-  //   };
-
-  //   // Update product request
-  //   const result = await updateProduct(updatedProduct);
-
-  //   // Handle error
-  //   if (result.error)
-  //     return toast.error(
-  //       result.error?.data ||
-  //         result.error?.data?.message ||
-  //         result.error.message ||
-  //         'Authentication error'
-  //     );
-
-  //   // Handle success
-  //   toast.success('Product updated successfully');
-  //   navigate('/admin/productlist');
-  // };
-
-  // // Upload image handler
-  // const uploadImageHandler = async (e) => {
-  //   const formData = new FormData();
-  //   formData.append('image', e.target.files[0]);
-
-  //   const { data, error } = await uploadImage(formData);
-  //   if (error) return toast.error(error.data.message);
-
-  //   toast.success(data.message);
-  //   setImage(data.image);
-  // };
 
   // Handle loading
   if (productLoading || updateLoading || uploadLoading) return <Loader />;
