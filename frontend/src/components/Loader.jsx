@@ -13,6 +13,9 @@ const Loader = () => {
         height: '100px',
         margin: 'auto',
         display: 'block',
+        position: 'absolute',
+        top: '0',
+        right: '0',
       }}
     ></Spinner>
   );

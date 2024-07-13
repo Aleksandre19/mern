@@ -4,19 +4,21 @@ import {
 } from '../../slices/product';
 import { toast } from 'react-toastify';
 
-const useProductListPage = (products, refetch) => {
+const useProductListPage = (refetch) => {
   // Create product endpoint
-  const [createProduct, { createProductLoading, createProductError }] =
+  const [createProduct, { isLoading: createProductLoading }] =
     useCreateProductMutation();
 
   // Delete product endpoint
-  const [deleteProduct, { deleteProductLoading, deleteProductError }] =
+  const [deleteProduct, { isLoading: deleteProductLoading }] =
     useDeleteProductMutation();
 
   // Create product handler
   const createProductHandler = async () => {
     if (window.confirm('Are you sure?')) {
-      await createProduct();
+      const { error } = await createProduct();
+
+      if (error) return toast.error(error?.data?.message || error.message);
       refetch();
     }
   };
@@ -24,7 +26,10 @@ const useProductListPage = (products, refetch) => {
   // Delete product handler
   const deleteHandler = async (id) => {
     if (window.confirm('Are you sure?')) {
-      await deleteProduct(id);
+      const { error } = await deleteProduct(id);
+
+      if (error) return toast.error(error?.data?.message || error.message);
+
       toast.success('Product deleted successfully!');
       refetch();
     }
@@ -35,8 +40,6 @@ const useProductListPage = (products, refetch) => {
     createProductHandler,
     createProductLoading,
     deleteProductLoading,
-    createProductError,
-    deleteProductError,
   };
 };
 

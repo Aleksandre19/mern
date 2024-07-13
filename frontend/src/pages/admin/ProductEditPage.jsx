@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
-import { toast } from 'react-toastify';
 import useProductEditPage from '../../hooks/admin/useProductEditPage';
 
 const ProductEditPage = () => {
@@ -22,9 +21,6 @@ const ProductEditPage = () => {
     productLoading,
     updateLoading,
     uploadLoading,
-    productError,
-    updateError,
-    uploadError,
   } = useProductEditPage(
     name,
     setName,
@@ -44,15 +40,6 @@ const ProductEditPage = () => {
 
   // Handle loading
   if (productLoading || updateLoading || uploadLoading) return <Loader />;
-
-  // Handle error
-  if (updateError || productError || uploadError)
-    return toast.error(
-      updateError?.data ||
-        updateError?.data?.message ||
-        updateError.message ||
-        'Could not fulfill request'
-    );
 
   return (
     <>

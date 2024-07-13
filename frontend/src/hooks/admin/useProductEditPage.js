@@ -98,8 +98,8 @@ const useProductEditPage = (
     const { data, error } = await uploadImage(formData);
     if (error) return toast.error(error.data.message);
 
-    toast.success(data.message);
     setImage(data.image);
+    toast.success(data.message);
   };
 
   return {

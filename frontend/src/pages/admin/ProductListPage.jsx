@@ -22,7 +22,7 @@ const ProductListPage = () => {
     deleteProductLoading,
     createProductError,
     deleteProductError,
-  } = useProductListPage(products, refetch);
+  } = useProductListPage(refetch);
 
   // Handle loadings
   if (getProductLoading || createProductLoading || deleteProductLoading)
