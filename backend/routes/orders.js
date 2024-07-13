@@ -5,6 +5,8 @@ import Order from '../models/Order.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
+import { validateOrder } from '../models/Order.js';
+import { handleDb, handleError } from '../utils/handleDb.js';
 
 // @desc Create order
 // @route GET /api/orders
@@ -13,6 +15,11 @@ router.post(
   '/',
   isAuth,
   asyncHandler(async (req, res) => {
+    // Validate input
+    const { error } = validateOrder(req.body);
+    if (error) handleError(error, res);
+
+    // Grab order fields
     const {
       orderItems,
       shippingAddress,
@@ -23,15 +30,18 @@ router.post(
       totalPrice,
     } = req.body;
 
+    // Check if order items exist
     if (orderItems && orderItems.length === 0)
       res.status(400).send('No order items');
 
+    // Add product Id to order
     const orderItemsWithProductID = orderItems.map((i) => ({
       ...i,
       product: i._id,
       _id: undefined,
     }));
 
+    // Create new order
     const order = new Order({
       user: req.user._id,
       orderItems: orderItemsWithProductID,
@@ -43,8 +53,13 @@ router.post(
       totalPrice,
     });
 
-    const newOrder = await order.save();
-    res.status(201).json(newOrder);
+    const { data, error: creatError } = await handleDb(order.save());
+
+    // Handle server error
+    if (creatError) handleError(creatError, res);
+
+    // Send response
+    res.status(201).json(data);
   })
 );
 
@@ -55,9 +70,15 @@ router.get(
   '/me',
   isAuth,
   asyncHandler(async (req, res) => {
-    const myOrders = await Order.find({ user: req.user._id });
-    if (!myOrders) return res.status(404).json('No orders found');
-    return res.status(200).json(myOrders);
+    // Find order
+    const { data, error } = await handleDb(Order.find({ user: req.user._id }));
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('No orders found');
+
+    // Send response
+    return res.status(200).json(data);
   })
 );
 
@@ -69,12 +90,16 @@ router.get(
   isAuth,
   validateObjectId,
   asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id).populate(
-      'user',
-      'name email'
+    // Find order
+    const { data: order, error } = await handleDb(
+      Order.findById(req.params.id).populate('user', 'name email')
     );
 
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!order) return res.status(404).json('Order not found');
+
+    // Send response
     res.status(200).json(order);
   })
 );
@@ -87,8 +112,16 @@ router.get(
   isAuth,
   isAdmin,
   asyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate('user', 'id name');
+    // Find orders
+    const { data: orders, error } = await handleDb(
+      Order.find({}).populate('user', 'id name')
+    );
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!orders) return res.status(404).json('No orders found');
+
+    // Send response
     res.status(200).json(orders);
   })
 );
@@ -101,10 +134,16 @@ router.put(
   isAuth,
   validateObjectId,
   asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    // Find order
+    const { data: order, error } = await handleDb(
+      Order.findById(req.params.id)
+    );
 
+    // Handle server and not found errors
+    if (error) handleError(error, res);
     if (!order) return res.status(404).json('Order not found');
 
+    // Set up order fields
     order.isPaid = true;
     order.paidAt = Date.now();
     order.paymentResult = {
@@ -114,37 +153,44 @@ router.put(
       email_address: req.body.payer.email_address,
     };
 
-    const updatedOrder = await order.save();
-    res.status(200).json(updatedOrder);
+    // Update order and handle server error
+    const { data: upOrder, error: upError } = await handleDb(order.save());
+    if (upError) handleError(upError, res);
+
+    // Send response
+    res.status(200).json(upOrder);
   })
 );
 
 // @desc Update order to delivered
 // @route GET /api/orders/:id/delivered
 // @access Private/Admin
-router.put('/:id/delivered', isAuth, isAdmin, async (req, res) => {
-  const order = await Order.findById(req.params.id);
-
-  if (!order) return res.status(404).json('Order not found');
-
-  order.isDelivered = true;
-  order.deliveredAt = Date.now();
-  const updatedOrder = await order.save();
-
-  res.status(200).json(updatedOrder);
-});
-
-// @desc Update order
-// @route GET /api/orders/:id
-// @access Private
-router.delete(
-  '/:id',
+router.put(
+  '/:id/delivered',
   isAuth,
   isAdmin,
   validateObjectId,
-  asyncHandler(async (req, res) => {
-    res.send('Get order by id');
-  })
+  async (req, res) => {
+    // Find order
+    const { data: order, error } = await handleDb(
+      Order.findById(req.params.id)
+    );
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!order) return res.status(404).json('Order not found');
+
+    // Set up order fields
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    // Update order and handle server error
+    const { data, error: upError } = await handleDb(order.save());
+    if (upError) handleError(upError, res);
+
+    // Send response
+    res.status(200).json(data);
+  }
 );
 
 export default router;

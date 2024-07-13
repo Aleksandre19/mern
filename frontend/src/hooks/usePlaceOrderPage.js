@@ -38,13 +38,7 @@ const usePlaceOrderPage = () => {
     });
 
     // Check errors
-    if (error)
-      return toast.error(
-        error?.data ||
-          error?.data?.message ||
-          error.message ||
-          'Authentication error'
-      );
+    if (error) return error.data;
 
     // Clear cart & navigate to order page
     dispatch(clearCart());
