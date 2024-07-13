@@ -100,7 +100,7 @@ router.delete(
 
     if (!product) return res.status(404).send('Product not found.');
 
-    await product.deleteOne({ _id: product._id });
+    await Product.deleteOne({ _id: product._id });
     res.status(200).send('product deleted');
   })
 );

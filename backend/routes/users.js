@@ -6,7 +6,34 @@ import User from '../models/user.js';
 import { validateAuthUser, validateRegUser } from '../models/user.js';
 import { setAuthCookie } from '../utils/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
-import { isAuth } from '../middlewares/auth.js';
+import { isAuth, isAdmin } from '../middlewares/auth.js';
+
+// @desc Get all users
+// @route GET /api/users
+// @access Private/Admin
+router.get(
+  '/',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.status(200).json(users);
+  })
+);
+
+// @desc Get user by Id
+// @route GET /api/users/:id
+// @access Private/Admin
+router.get(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) return res.status(404).json('User not found');
+    res.status(200).json(user);
+  })
+);
 
 // @desc Authe User
 // @route POST /api/users/auth
@@ -94,6 +121,50 @@ router.put(
 
     const updatedUser = await user.save();
     res.status(200).json(updatedUser);
+  })
+);
+
+// @desc Update user
+// @route PUT /api/users/:id
+// @access Private/Admin
+router.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json('User not found');
+
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+    const updatedUser = await user.save();
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  })
+);
+
+// @desc Delete user
+// @route DELETE /api/users/:id
+// @access Private/Admin
+router.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json('User not found');
+    if (user.isAdmin) return res.status(400).json('Cannot delete admin');
+
+    await User.deleteOne({ _id: req.params.id });
+    res.status(200).send('User deleted successfully');
   })
 );
 
