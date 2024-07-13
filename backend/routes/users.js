@@ -164,7 +164,7 @@ router.delete(
     if (user.isAdmin) return res.status(400).json('Cannot delete admin');
 
     await User.deleteOne({ _id: req.params.id });
-    res.status(200).send('User deleted successfully');
+    res.status(200).json('User deleted successfully');
   })
 );
 

@@ -2,32 +2,37 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { FaTimes, FaTrash, FaEdit, FaCheck } from 'react-icons/fa';
 import Loader from '../../components/Loader';
-import { useGetUsersQuery } from '../../slices/userApi';
+import { toast } from 'react-toastify';
+import { useGetUsersQuery, useDeleteUserMutation } from '../../slices/userApi';
 
 const UserListPage = () => {
   const {
     data: users,
     refetch,
-    isLoading: userLoadin,
+    isLoading: userLoading,
     error: userError,
   } = useGetUsersQuery();
 
+  const [deleteUser, { isLoading: deleteLoading, error: deleteError }] =
+    useDeleteUserMutation();
+
   const deleteHandler = async (id) => {
-    console.log('Delete');
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      const { data, error } = await deleteUser(id);
+
+      if (error) return toast.error(error?.data || error?.data?.message);
+
+      refetch();
+      toast.success(data);
+    }
   };
 
-  if (userLoadin) return <Loader />;
+  if (userLoading) return <Loader />;
 
-  if (userError)
-    return toast.error(
-      error?.data ||
-        error?.data?.message ||
-        error.message ||
-        'Authentication error'
-    );
   return (
     <>
       <h1>Users</h1>
+      {deleteLoading && <Loader />}
       <Table striped bordered hover responsive className='table-sm'>
         <thead>
           <tr>
@@ -59,6 +64,7 @@ const UserListPage = () => {
                     <FaEdit />
                   </Button>
                 </LinkContainer>
+
                 <Button
                   variant='danger'
                   className='btn-sm'

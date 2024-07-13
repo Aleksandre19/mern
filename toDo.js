@@ -30,3 +30,5 @@
 // x Error trace in terminal
 
 // Loading iacon doesn't show up
+
+// error and loading refactoring

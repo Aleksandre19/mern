@@ -39,6 +39,12 @@ export const userApi = () =>
         providesTags: ['Users'], // Remove from cache when user is updated
         keepUnusedDataFor: 5,
       }),
+      deleteUser: builder.mutation({
+        query: (orderId) => ({
+          url: `${USERS_URL}/${orderId}`,
+          method: 'DELETE',
+        }),
+      }),
     }),
   });
 
@@ -48,4 +54,5 @@ export const {
   useRegisterMutation,
   useProfileMutation,
   useGetUsersQuery,
+  useDeleteUserMutation,
 } = userApi();
