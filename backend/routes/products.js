@@ -159,7 +159,7 @@ router.delete(
 // @route   POST /api/products/:id/reviews
 // @access  Ptivate
 router.post(
-  '/:id',
+  '/:id/reviews',
   isAuth,
   validateObjectId,
   asyncHandler(async (req, res) => {
@@ -167,14 +167,17 @@ router.post(
     const { error } = validateReview(req.body);
     if (error) return res.status(400).json(error.details[0].message);
 
+    // Destructure request body
+    const { rating, comment } = req.body;
+
     // Find product
     const { data: product, error: productError } = await handleDb(
       Product.findById(req.params.id)
     );
 
     // Handle server and not found errors
-    if (productError) handleError(error, res);
-    if (!product) return res.status(404).send('Product not found.');
+    if (productError) handleError(productError, res);
+    if (!product) return res.status(404).json('Product not found.');
 
     // Check if user has already reviewed this product
     const alreadyReviewed = product.reviews.find(
@@ -183,12 +186,18 @@ router.post(
 
     // If reviewed, return response
     if (alreadyReviewed)
-      return res.status(400).send('You have already reviewed this product');
+      return res.status(400).json('You have already reviewed this product');
+
+    // Create new review
+    const newReview = {
+      name: req.user.name,
+      rating: rating,
+      comment: comment,
+      user: req.user._id,
+    };
 
     // Add review to product
-    product.reviews.push(
-      _.pick(req.body, ['user', 'name', 'rating', 'comment'])
-    );
+    product.reviews.push(newReview);
 
     // Increment product reviews count
     product.numReviews = product.reviews.length;
@@ -203,7 +212,7 @@ router.post(
     if (updateError) handleError(updateError, res);
 
     // Send response
-    res.status(200).send('Review added successfully');
+    res.status(200).json('Review added successfully');
   })
 );
 

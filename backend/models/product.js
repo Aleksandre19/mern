@@ -101,9 +101,8 @@ const validateProduct = (product) => {
 
 const validateReview = (review) => {
   const schema = Joi.object({
-    user: Joi.objectId().required(),
-    name: Joi.string().required(),
-    rating: Joi.number().required(),
+    productId: Joi.objectId().required(),
+    rating: Joi.number().min(1).required(),
     comment: Joi.string().required(),
   });
 
