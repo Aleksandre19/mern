@@ -99,6 +99,17 @@ const validateProduct = (product) => {
   return schema.validate(product);
 };
 
+const validateReview = (review) => {
+  const schema = Joi.object({
+    user: Joi.objectId().required(),
+    name: Joi.string().required(),
+    rating: Joi.number().required(),
+    comment: Joi.string().required(),
+  });
+
+  return schema.validate(review);
+};
+
 const Product = mongoose.model('Product', productSchema);
-export { validateProduct };
+export { validateProduct, validateReview };
 export default Product;
