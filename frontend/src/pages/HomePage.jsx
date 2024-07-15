@@ -5,6 +5,7 @@ import Paginate from '../components/Paginate';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import GoBackButton from '../components/GoBackButton';
 
 const HomeScreen = () => {
   // Get page number
@@ -26,6 +27,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      {keyword && <GoBackButton />}
       <h1>Latest Products </h1>
       <Row>
         {data.products.map((product) => (
