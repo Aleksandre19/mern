@@ -83,7 +83,7 @@ router.post(
     if (!data) return res.status(404).json('Product not found');
 
     // Send response
-    res.status(201).json(data);
+    res.status(201).json('Product created successfully');
   })
 );
 
@@ -160,7 +160,7 @@ router.delete(
     if (deleteError) handleError(deleteError, res);
 
     // Send response
-    res.status(200).send('product deleted successfully');
+    res.status(200).json('product deleted successfully');
   })
 );
 
