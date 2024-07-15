@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useGetProductsQuery } from '../slices/product';
+import Meta from '../components/Meta';
 import HomeProducts from '../components/HomeProducts';
 import GoBackButton from '../components/GoBackButton';
 import Loader from '../components/Loader';
@@ -32,6 +33,7 @@ const HomeScreen = () => {
     <>
       {keyword && <GoBackButton />}
       <ProductsCarousel />
+      <Meta title='Home Page' description='Welcome to Proshop' />
       <h1>Latest Products </h1>
       <HomeProducts data={data} />
       <Paginate pages={data.pages} page={data.page} keyword={keyword} />

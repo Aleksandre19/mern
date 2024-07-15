@@ -47,7 +47,6 @@ router.get(
 router.get(
   '/top',
   asyncHandler(async (req, res) => {
-    console.log('top products');
     // Find top three products
     const { data, error } = await handleDb(
       Product.find({}).sort({ rating: -1 }).limit(3)

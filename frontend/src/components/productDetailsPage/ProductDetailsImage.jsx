@@ -1,9 +1,13 @@
 import { Col, Image } from 'react-bootstrap';
+import Meta from '../Meta';
 const ProductDetailsImage = ({ product }) => {
   return (
-    <Col md={5}>
-      <Image src={product.image} alt={product.name} fluid />
-    </Col>
+    <>
+      <Meta title={product.name} description={product.description} />
+      <Col md={5}>
+        <Image src={product.image} alt={product.name} fluid />
+      </Col>
+    </>
   );
 };
 
