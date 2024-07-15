@@ -14,15 +14,24 @@ import { handleDb, handleError } from '../utils/handleDb.js';
 router.get(
   '/',
   asyncHandler(async (req, res) => {
+    // Pagination parameters
+    const pageSize = 2;
+    const page = Number(req.query.pageNumber) || 1;
+    const totalDocuments = await Product.countDocuments();
+
     // Get products
-    const { data, error } = await handleDb(Product.find({}));
+    const { data: products, error } = await handleDb(
+      Product.find({})
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
+    );
 
     // Handle server and not found errors
     if (error) handleError(error, res);
-    if (!data) return res.status(404).json('Products not found');
+    if (!products) return res.status(404).json('Products not found');
 
     // Send response
-    res.json(data);
+    res.json({ products, page, pages: Math.ceil(totalDocuments / pageSize) });
   })
 );
 
