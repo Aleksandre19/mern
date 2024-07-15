@@ -15,13 +15,19 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     // Pagination parameters
-    const pageSize = 4;
+    const pageSize = 1;
     const page = Number(req.query.pageNumber) || 1;
-    const totalDocuments = await Product.countDocuments();
+
+    // ket search keyword
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: 'i' } }
+      : {};
+
+    const totalDocuments = await Product.countDocuments({ ...keyword });
 
     // Get products
     const { data: products, error } = await handleDb(
-      Product.find({})
+      Product.find({ ...keyword })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
     );
