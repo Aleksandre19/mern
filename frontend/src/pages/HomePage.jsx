@@ -7,15 +7,18 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 const HomeScreen = () => {
+  // Get page number
   const { pageNumber } = useParams();
-
+  // Get products
   const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
 
+  // Handle error
   if (error)
     return (
       <Message type='danger'>{error.data?.message || error.error}</Message>
     );
 
+  // Handle loading
   if (isLoading) return <Loader />;
 
   return (
