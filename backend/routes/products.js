@@ -15,7 +15,7 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     // Pagination parameters
-    const pageSize = 2;
+    const pageSize = 4;
     const page = Number(req.query.pageNumber) || 1;
     const totalDocuments = await Product.countDocuments();
 
