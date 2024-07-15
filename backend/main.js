@@ -18,10 +18,6 @@ import users from './routes/users.js';
 import orders from './routes/orders.js';
 import uploads from './routes/uploads.js';
 
-// Set __dirname to current directory
-const __dirname = path.resolve();
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -34,6 +30,25 @@ app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/uploads', uploads);
+
+// Set __dirname to current directory
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
+// Set production env
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+  // Any route which is not api will be redirected to main.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
+}
 
 // app.use(notFound);
 // app.use(errorHandler);

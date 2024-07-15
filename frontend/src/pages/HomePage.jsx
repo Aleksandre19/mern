@@ -32,9 +32,11 @@ const HomeScreen = () => {
   return (
     <>
       {keyword && <GoBackButton />}
-      <ProductsCarousel />
+      {!keyword && <ProductsCarousel />}
+
       <Meta title='Home Page' description='Welcome to Proshop' />
       <h1>Latest Products </h1>
+
       <HomeProducts data={data} />
       <Paginate pages={data.pages} page={data.page} keyword={keyword} />
     </>
