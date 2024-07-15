@@ -5,6 +5,7 @@ import GoBackButton from '../components/GoBackButton';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import ProductsCarousel from '../components/ProductsCarousel';
 
 const HomeScreen = () => {
   // Get page number
@@ -30,6 +31,7 @@ const HomeScreen = () => {
   return (
     <>
       {keyword && <GoBackButton />}
+      <ProductsCarousel />
       <h1>Latest Products </h1>
       <HomeProducts data={data} />
       <Paginate pages={data.pages} page={data.page} keyword={keyword} />

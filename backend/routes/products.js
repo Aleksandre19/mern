@@ -15,7 +15,7 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     // Pagination parameters
-    const pageSize = 1;
+    const pageSize = 8;
     const page = Number(req.query.pageNumber) || 1;
 
     // ket search keyword
@@ -41,7 +41,28 @@ router.get(
   })
 );
 
-// @desc Get product by ID'
+// @desc Get top products
+// @route GET /api/products/top
+// @access Public
+router.get(
+  '/top',
+  asyncHandler(async (req, res) => {
+    console.log('top products');
+    // Find top three products
+    const { data, error } = await handleDb(
+      Product.find({}).sort({ rating: -1 }).limit(3)
+    );
+
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!data) return res.status(404).json('Products not found');
+
+    // Send response
+    res.status(200).json(data);
+  })
+);
+
+// @desc Get product by Id
 // @route GET /api/products/:id
 // @access Public
 router.get(
