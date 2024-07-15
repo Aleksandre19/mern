@@ -1,11 +1,11 @@
 import express from 'express';
 const router = express.Router();
 
-import Order from '../models/Order.js';
+import Order from '../models/order.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
-import { validateOrder } from '../models/Order.js';
+import { validateOrder } from '../models/order.js';
 import { handleDb, handleError } from '../utils/handleDb.js';
 
 // @desc Create order

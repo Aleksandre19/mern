@@ -121,14 +121,14 @@ const OrderPage = () => {
                 <ListGroup.Item>
                   {isPaying && <Loader />}
                   {isPending && <Loader />}
-                  <div>
+                  {/* <div>
                     <Button
                       onClick={onApproveTest}
                       style={{ marginBottom: '10px' }}
                     >
                       Test Pay Order
                     </Button>
-                  </div>
+                  </div> */}
                   <div>
                     <PayPalButtons
                       createOrder={createOrder}
