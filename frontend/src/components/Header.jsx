@@ -4,6 +4,7 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/userApi';
+import { resetCart } from '../slices/cart';
 import { logout } from '../slices/auth';
 import logo from '../assets/logo.png';
 import { toast } from 'react-toastify';
@@ -30,7 +31,8 @@ const Header = () => {
       );
 
     dispatch(logout());
-    toast.success(data.message || 'Logout successful');
+    dispatch(resetCart());
+    toast.success(error?.data?.message || 'Logout successful');
     navigate('/login');
   };
   return (
