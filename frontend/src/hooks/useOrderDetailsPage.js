@@ -10,7 +10,7 @@ import {
 } from '../slices/ordersApi';
 import { toast } from 'react-toastify';
 
-const usePayPal = () => {
+const useOrderDetailsPage = () => {
   // Grab orders ID
   const { id: orderId } = useParams();
 
@@ -135,4 +135,4 @@ const usePayPal = () => {
   };
 };
 
-export default usePayPal;
+export default useOrderDetailsPage;

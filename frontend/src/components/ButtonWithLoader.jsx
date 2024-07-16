@@ -1,9 +1,9 @@
 import { Spinner, Button } from 'react-bootstrap';
-const ButtonWithLoader = ({ loading, text, ...styles }) => {
+const ButtonWithLoader = ({ loading, text, type = 'submit', ...styles }) => {
   return (
     <>
       {loading ? (
-        <Button type='submit' variant='primary' {...styles} disabled>
+        <Button type={type} variant='primary' {...styles} disabled>
           <Spinner
             as='span'
             animation='border'

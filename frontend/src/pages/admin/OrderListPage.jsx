@@ -5,7 +5,7 @@ import Loader from '../../components/Loader';
 import { useGetOrdersQuery } from '../../slices/ordersApi';
 
 const OrderListPage = () => {
-  const { data: orders, isLoading, isError, error } = useGetOrdersQuery();
+  const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   if (isLoading) return <Loader />;
 
