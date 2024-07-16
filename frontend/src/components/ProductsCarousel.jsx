@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { Carousel, Image, Row, Col, ListGroup } from 'react-bootstrap';
 import Rating from './Rating';
 import Loader from './Loader';
-import Message from './Message';
 import ErrorHandler from './ErrorHandler';
 import { useGetTopProductsQuery } from '../slices/product';
 
@@ -11,7 +10,7 @@ const ProductsCarousel = () => {
 
   if (isLoading) return <Loader />;
 
-  ErrorHandler({ error });
+  if (error) return ErrorHandler(error);
 
   return (
     <Carousel className='my-4'>

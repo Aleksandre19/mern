@@ -11,6 +11,7 @@ import {
   WriteComment,
 } from '../components/productDetailsPage';
 import useProductPage from '../hooks/useProductPage';
+import Message from '../components/Message';
 
 const ProductPage = () => {
   // Custom hook
@@ -32,10 +33,13 @@ const ProductPage = () => {
 
   // Handle loading
   if (isProductLoading) return <Loader />;
+
+  // Handle error
+  if (productError) return ErrorHandler(productError);
+
   return (
     <>
       <GoBackButton />
-      <ErrorHandler error={productError} />
 
       <ProductDetailsSection>
         <ProductDetailsImage product={product} />
