@@ -8,3 +8,7 @@ export { OrderCard } from './orderDetails/';
 export { CardSummary } from './orderDetails/';
 export { CardPayments } from './orderDetails/';
 export { MarkAsDelivered } from './orderDetails/';
+
+// Home Page
+export { ProductsList } from './homePage/';
+export { ProductsCarousel } from './homePage/';

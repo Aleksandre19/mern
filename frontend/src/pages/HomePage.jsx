@@ -1,12 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useGetProductsQuery } from '../slices/product';
 import Meta from '../components/Meta';
-import HomeProducts from '../components/HomeProducts';
+import { ProductsList, ProductsCarousel } from '../components';
 import GoBackButton from '../components/GoBackButton';
+import ErrorHandler from '../components/ErrorHandler';
 import Loader from '../components/Loader';
-import Message from '../components/Message';
 import Paginate from '../components/Paginate';
-import ProductsCarousel from '../components/ProductsCarousel';
 
 const HomeScreen = () => {
   // Get page number
@@ -26,18 +25,20 @@ const HomeScreen = () => {
   if (isLoading) return <Loader />;
 
   // Handle error
-  if (productError)
-    return <Message variant='danger'>{productError?.data}</Message>;
+  if (productError) return <ErrorHandler error={productError} />;
 
   return (
     <>
-      {keyword && <GoBackButton />}
-      {!keyword && <ProductsCarousel />}
+      {keyword ? <GoBackButton /> : <ProductsCarousel />}
 
-      <Meta title='Home Page' description='Welcome to Proshop' />
+      <Meta
+        title='MERN'
+        description='MERN Stack Project From Scratch | E-Commerce Platform'
+      />
+
       <h1>Latest Products </h1>
 
-      <HomeProducts data={data} />
+      <ProductsList data={data} />
       <Paginate pages={data.pages} page={data.page} keyword={keyword} />
     </>
   );
