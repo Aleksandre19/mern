@@ -2,6 +2,7 @@ import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import useRegisterPage from '../hooks/useRgisterPage';
+import ButtonWithLoader from '../components/ButtonWithLoader';
 
 const RegisterPage = () => {
   const {
@@ -19,6 +20,8 @@ const RegisterPage = () => {
     redirect,
   } = useRegisterPage();
 
+  if (isLoading) return <Loader />;
+
   return (
     <FormContainer>
       <h1>Sing Up</h1>
@@ -33,6 +36,7 @@ const RegisterPage = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId='email' className='my-3'>
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -42,6 +46,7 @@ const RegisterPage = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId='password' className='my-3'>
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -51,6 +56,7 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId='confirmPassword' className='my-3'>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
@@ -60,16 +66,20 @@ const RegisterPage = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <Button type='submit' variant='primary' className='mt-2' disabled={isLoading}>
-          Sing Up
-        </Button>
 
-        {isLoading && <Loader />}
+        <ButtonWithLoader
+          loading={isLoading}
+          text={'Sing Up'}
+          className='mt-2'
+        />
       </Form>
+
       <Row className='py-3'>
         <Col>
           Already have an account?{' '}
-          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Login
+          </Link>
         </Col>
       </Row>
     </FormContainer>

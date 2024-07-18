@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRegisterMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
 import { toast } from 'react-toastify';
+import { ErrorHandlerToast } from '../components/ErrorHandler';
 
 const useRegisterPage = () => {
   // Component base states
@@ -36,16 +37,14 @@ const useRegisterPage = () => {
     e.preventDefault();
 
     // Check if password matches
-    if (password !== confirmPassword) return toast.error('Passwords do not match');
+    if (password !== confirmPassword)
+      return toast.error('Passwords do not match');
 
     // Register user
     const { error, data } = await register({ name, email, password });
 
     // Check error
-    if (error)
-      return toast.error(
-        error?.data || error?.data?.message || error.message || 'Authentication error'
-      );
+    if (error) return ErrorHandlerToast(error);
 
     // Set user credentials and redirect
     dispatch(setCredentials({ ...data }));
