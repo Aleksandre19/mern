@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
+import { ErrorHandlerToast } from '../components/ErrorHandler';
 import { toast } from 'react-toastify';
 
 const useLoginPage = () => {
@@ -33,14 +34,16 @@ const useLoginPage = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    // Login user
     const { error, data } = await login({ email, password });
 
-    if (error)
-      return toast.error(
-        error?.data || error?.data?.message || error.message || 'Authentication error'
-      );
+    // Handle error
+    if (error) return ErrorHandlerToast(error);
 
+    // Set user info in local storage
     dispatch(setCredentials({ ...data }));
+
+    // Welcome message and redirect user.
     toast.success(`Welcome back, ${data.name}`);
     navigate(redirect);
   };

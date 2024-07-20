@@ -1,12 +1,19 @@
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import FormContainer from '../components/FormContainer';
-import Loader from '../components/Loader';
+import ButtonWithLoader from '../components/ButtonWithLoader';
 import useLoginPage from '../hooks/useLoginPage';
 
 const LoginPage = () => {
-  const { email, setEmail, password, setPassword, submitHandler, isLoading, redirect } =
-    useLoginPage();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    submitHandler,
+    isLoading,
+    redirect,
+  } = useLoginPage();
 
   return (
     <FormContainer>
@@ -22,6 +29,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId='password' className='my-3'>
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -31,12 +39,14 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button type='submit' variant='primary' className='mt-2' disabled={isLoading}>
-          Sing In
-        </Button>
 
-        {isLoading && <Loader />}
+        <ButtonWithLoader
+          loading={isLoading}
+          text={'Sing In'}
+          className='mt-2'
+        />
       </Form>
+
       <Row className='py-3'>
         <Col>
           New Customer?{' '}

@@ -57,7 +57,7 @@ router.get(
   })
 );
 
-// @desc Authe User
+// @desc Auth User
 // @route POST /api/users/auth
 // @access Public
 router.post(
