@@ -9,9 +9,9 @@ const ErrorHandler = (error) => {
         {error?.data?.message ||
           error?.error?.data?.message ||
           error.message ||
-          error.error.error ||
-          error.error.data ||
-          error.data}
+          error?.error?.error ||
+          error?.error?.data ||
+          error?.data}
       </Message>
     )
   );

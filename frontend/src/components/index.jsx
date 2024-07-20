@@ -12,3 +12,8 @@ export { MarkAsDelivered } from './orderDetails/';
 // Home Page
 export { ProductsList } from './homePage/';
 export { ProductsCarousel } from './homePage/';
+
+// Profile Page
+export { Profile } from './profilePage/';
+export { UpdateCredentials } from './profilePage/';
+export { UserOrdersList } from './profilePage/';
