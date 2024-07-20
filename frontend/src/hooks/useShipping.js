@@ -11,6 +11,7 @@ const useShipping = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Redirect back to cart page if cart is empty
   useEffect(() => {
     if (cartItems.length === 0) navigate('/cart');
   }, [cartItems, navigate]);
@@ -25,6 +26,8 @@ const useShipping = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    // Save shipping address to Redux store and redirect to payment page
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
     navigate('/payment');
   };
