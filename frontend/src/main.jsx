@@ -17,7 +17,7 @@ import {
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage.jsx';
-import ProductPage from './pages/ProductPage.jsx';
+import ProductDetailsPage from './pages/ProductDetailsPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
       <Route path='/search/:keyword' element={<HomePage />} />
       <Route path='/page/:pageNumber' element={<HomePage />} />
       <Route path='/search/:keyword/page/:pageNumber' element={<HomePage />} />
-      <Route path='/product/:id' element={<ProductPage />} />
+      <Route path='/product/:id' element={<ProductDetailsPage />} />
       <Route path='/cart' element={<CartPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />

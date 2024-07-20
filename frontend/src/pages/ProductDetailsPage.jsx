@@ -9,11 +9,10 @@ import {
   ProductReviews,
   ReviewsList,
   WriteComment,
-} from '../components/productDetailsPage';
-import useProductPage from '../hooks/useProductPage';
-import Message from '../components/Message';
+} from '../components/';
+import useProductDetailsPage from '../hooks/useProductDetailsPage';
 
-const ProductPage = () => {
+const ProductDetailsPage = () => {
   // Custom hook
   const {
     product,
@@ -29,7 +28,7 @@ const ProductPage = () => {
     isProductLoading,
     isReviewLoading,
     productError,
-  } = useProductPage();
+  } = useProductDetailsPage();
 
   // Handle loading
   if (isProductLoading) return <Loader />;
@@ -70,4 +69,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default ProductDetailsPage;

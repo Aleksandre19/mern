@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cart';
 import { toast } from 'react-toastify';
+import { ErrorHandlerToast } from '../components/ErrorHandler';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from '../slices/product';
 
-const useProducPage = () => {
+const useProductDetailsPage = () => {
   // Grab product ID
   const { id: productId } = useParams();
 
@@ -52,7 +53,7 @@ const useProducPage = () => {
     });
 
     // Error handling
-    if (error) return toast.error(error?.data || error.data.message);
+    if (error) return ErrorHandlerToast(error);
 
     // On successe
     refetch();
@@ -78,4 +79,4 @@ const useProducPage = () => {
   };
 };
 
-export default useProducPage;
+export default useProductDetailsPage;
