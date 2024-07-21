@@ -9,22 +9,29 @@ const usePlaceOrderPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let cart = useSelector((state) => state.cart); // Get cart state
-  const userInfo = useSelector((state) => state.auth.userInfo); // Get user info
-  cart = { ...cart, user: userInfo }; // Add user info into cart
+  // Get cart state
+  let cart = useSelector((state) => state.cart);
 
-  // Place order endpoint
-  const [createOrder, { isLoading: placeOrderLoading }] =
-    useCreateOrderMutation();
-
-  // Redirect if shipping address or payment methods are missing
+  // Redirect to cart page if there are no items
+  // or reditect respectively to shipping or payment page if address
+  // or payment method are missing
   useEffect(() => {
-    if (!cart.shippingAddress.address) {
+    if (cart.orderItems.length === 0) {
+      navigate('/cart');
+    } else if (!cart.shippingAddress) {
       navigate('/shipping');
     } else if (!cart.paymentMethod) {
       navigate('/payment');
     }
-  }, [cart.paymentMethod, cart.shippingAdress.address, navigate]);
+  }, [cart.paymentMethod, cart.shippingAdress, navigate]);
+
+  // Grab user info from the Redux state and add user info to it.
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  cart = { ...cart, user: userInfo };
+
+  // Place order endpoint
+  const [createOrder, { isLoading: placeOrderLoading }] =
+    useCreateOrderMutation();
 
   // Submit handler
   const placeOrderHandler = async () => {
