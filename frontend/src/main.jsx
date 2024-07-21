@@ -16,18 +16,24 @@ import {
 } from 'react-router-dom';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { HelmetProvider } from 'react-helmet-async';
+
+// Public routes
 import HomePage from './pages/HomePage.jsx';
 import ProductDetailsPage from './pages/ProductDetailsPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import ShippingPage from './pages/ShippingPage.jsx';
-import PrivateRoute from './components/PrivateRoute.jsx';
-import AdminRoute from './components/AdminRoute.jsx';
+
+// Private routes
+import { PrivateRoute } from './components';
 import PaymentPage from './pages/PaymentPage.jsx';
 import PlaceOrderPage from './pages/PlaceOrderPage.jsx';
 import OrderDetailsPage from './pages/OrderDetailsPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+
+// Admin routes
+import { AdminRoute } from './components';
 import OrderListPage from './pages/admin/OrderListPage.jsx';
 import ProductListPage from './pages/admin/ProductListPage.jsx';
 import ProductEditPage from './pages/admin/ProductEditPage.jsx';
@@ -53,6 +59,7 @@ const router = createBrowserRouter(
         <Route path='/order/:id' element={<OrderDetailsPage />} />
         <Route path='/profile/' element={<ProfilePage />} />
       </Route>
+
       <Route path='' element={<AdminRoute />}>
         <Route path='/admin/orderlist' element={<OrderListPage />} />
         <Route path='/admin/productlist' element={<ProductListPage />} />

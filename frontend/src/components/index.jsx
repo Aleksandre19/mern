@@ -1,3 +1,7 @@
+// Routes
+export { PrivateRoute } from './routes/';
+export { AdminRoute } from './routes/';
+
 // Order Details Page
 export { OrderDetailsContainer } from './orderDetails/';
 export { OrderInfo } from './orderDetails/';
