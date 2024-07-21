@@ -15,8 +15,8 @@ const ShippingInfo = ({ order, orderPage = true }) => {
 
       <p>
         <strong>Address: </strong>
-        {order.shippingAddress.address},{order.shippingAddress.city},
-        {order.shippingAddress.postalCode},{order.shippingAddress.country}
+        {order?.shippingAddress?.address},{order?.shippingAddress?.city},
+        {order?.shippingAddress?.postalCode},{order?.shippingAddress?.country}
       </p>
 
       {/* DISPLAY DELIVERY STATUS ONLY ON ORDER PAGE */}
