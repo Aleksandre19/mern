@@ -12,7 +12,7 @@ import SearchBox from './SearchBox';
 
 const Header = () => {
   // Component base states
-  const { cartItems } = useSelector((state) => state.cart);
+  const { orderItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -53,9 +53,9 @@ const Header = () => {
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {cartItems.length > 0 && (
+                  {orderItems.length > 0 && (
                     <Badge pill bg='success' style={{ marginLeft: '5px' }}>
-                      {cartItems.reduce((a, i) => a + i.qty, 0)}
+                      {orderItems.reduce((a, i) => a + i.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>

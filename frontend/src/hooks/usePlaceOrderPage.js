@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useCreateOrderMutation } from '../slices/ordersApi';
 import { clearCart } from '../slices/cart';
+import { ErrorHandlerToast } from '../components/ErrorHandler';
 
 const usePlaceOrderPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get cart state
-  const cart = useSelector((state) => state.cart);
+  let cart = useSelector((state) => state.cart); // Get cart state
+  const userInfo = useSelector((state) => state.auth.userInfo); // Get user info
+  cart = { ...cart, user: userInfo }; // Add user info into cart
 
-  // Grab order action
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  // Place order endpoint
+  const [createOrder, { isLoading: placeOrderLoading }] =
+    useCreateOrderMutation();
 
-  // Redirect if shipping address ot payment mthodsa are missing
+  // Redirect if shipping address or payment methods are missing
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       navigate('/shipping');
@@ -28,7 +30,7 @@ const usePlaceOrderPage = () => {
   const placeOrderHandler = async () => {
     // Create order
     const { data, error } = await createOrder({
-      orderItems: cart.cartItems,
+      orderItems: cart.orderItems,
       shippingAddress: cart.shippingAddress,
       paymentMethod: cart.paymentMethod,
       itemsPrice: cart.itemsPrice,
@@ -38,7 +40,7 @@ const usePlaceOrderPage = () => {
     });
 
     // Check errors
-    if (error) return error.data;
+    if (error) return ErrorHandlerToast(error);
 
     // Clear cart & navigate to order page
     dispatch(clearCart());
@@ -48,8 +50,7 @@ const usePlaceOrderPage = () => {
   return {
     placeOrderHandler,
     cart,
-    isLoading,
-    error,
+    placeOrderLoading,
   };
 };
 

@@ -26,3 +26,6 @@ export { ProductsCarousel } from './homePage/';
 export { Profile } from './profilePage/';
 export { UpdateCredentials } from './profilePage/';
 export { UserOrdersList } from './profilePage/';
+
+// Place Order Page
+export { PlaceOrder } from './placeOrder/';

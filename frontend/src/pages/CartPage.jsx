@@ -1,27 +1,35 @@
 import { Link } from 'react-router-dom';
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Card,
+} from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import useCartPage from '../hooks/useCartPage';
 
 const CartPage = () => {
-  const { cartItems, addToCartHandler, removeCartHandler, chackoutHandler } =
+  const { orderItems, addToCartHandler, removeCartHandler, chackoutHandler } =
     useCartPage();
 
   return (
     <Row>
       <Col md={8}>
         <h1 style={{ marginBottom: '20px' }}>Sopping Cart</h1>
-        {cartItems.length === 0 && (
+        {orderItems.length === 0 && (
           <Message variant='info'>
             Your cart is empty.
             <Link to='/'>Go Back</Link>
           </Message>
         )}
 
-        {cartItems.length > 0 && (
+        {orderItems.length > 0 && (
           <ListGroup variant='flush'>
-            {cartItems.map((item) => (
+            {orderItems.map((item) => (
               <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
@@ -35,7 +43,9 @@ const CartPage = () => {
                     <Form.Control
                       as='select'
                       value={item.qty}
-                      onChange={(e) => addToCartHandler(item, Number(e.target.value))}
+                      onChange={(e) =>
+                        addToCartHandler(item, Number(e.target.value))
+                      }
                     >
                       {[...Array(item.countInStock).keys()].map((i) => (
                         <option key={i + 1} value={i + 1}>
@@ -63,14 +73,16 @@ const CartPage = () => {
         <Card>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>Subtotal ({cartItems.reduce((a, i) => a + i.qty, 0)}) Items</h2>$
-              {cartItems.reduce((a, i) => a + i.qty * i.price, 0).toFixed(2)}
+              <h2>
+                Subtotal ({orderItems.reduce((a, i) => a + i.qty, 0)}) Items
+              </h2>
+              ${orderItems.reduce((a, i) => a + i.qty * i.price, 0).toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
                 type='button'
                 className='btn-block'
-                disabled={cartItems.length === 0}
+                disabled={orderItems.length === 0}
                 onClick={chackoutHandler}
               >
                 Proceed To Checkout

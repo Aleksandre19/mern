@@ -7,7 +7,7 @@ const useCartPage = () => {
   const dispatch = useDispatch();
 
   const card = useSelector((state) => state.cart);
-  const { cartItems } = card;
+  const { orderItems } = card;
 
   // ?? async
   const addToCartHandler = async (item, qty) => {
@@ -23,7 +23,7 @@ const useCartPage = () => {
   };
 
   return {
-    cartItems,
+    orderItems,
     addToCartHandler,
     removeCartHandler,
     chackoutHandler,

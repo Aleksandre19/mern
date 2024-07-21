@@ -6,15 +6,15 @@ import { saveShippingAddress } from '../slices/cart';
 const useShipping = () => {
   // Grab Shipping Address from Redux Store
   const cart = useSelector((state) => state.cart);
-  const { cartItems, shippingAddress } = cart;
+  const { orderItems, shippingAddress } = cart;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Redirect back to cart page if cart is empty
   useEffect(() => {
-    if (cartItems.length === 0) navigate('/cart');
-  }, [cartItems, navigate]);
+    if (orderItems.length === 0) navigate('/cart');
+  }, [orderItems, navigate]);
 
   // Component base state
   const [address, setAddress] = useState(shippingAddress?.address || '');

@@ -3,7 +3,7 @@ export const addDecimals = (num) => (Math.round(num * 100) / 100).toFixed(2);
 export const updateCart = (state) => {
   // All items price
   state.itemsPrice = addDecimals(
-    state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    state.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
 
   // Shipping price
