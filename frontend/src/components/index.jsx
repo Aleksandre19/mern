@@ -29,3 +29,8 @@ export { UserOrdersList } from './profilePage/';
 
 // Place Order Page
 export { PlaceOrder } from './placeOrder/';
+
+// Cart page
+export { Cart } from './cart/';
+export { CartOrdersList } from './cart/';
+export { CartSummary } from './cart/';

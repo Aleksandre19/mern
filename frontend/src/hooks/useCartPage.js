@@ -6,18 +6,20 @@ const useCartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const card = useSelector((state) => state.cart);
-  const { orderItems } = card;
+  // Grab order items
+  const { orderItems } = useSelector((state) => state.cart);
 
-  // ?? async
+  // Add to cart
   const addToCartHandler = async (item, qty) => {
     dispatch(addToCart({ ...item, qty }));
   };
 
+  // Remove from cart
   const removeCartHandler = async (id) => {
     dispatch(removeCart(id));
   };
 
+  // Chackout
   const chackoutHandler = () => {
     navigate('/login?redirect=shipping');
   };
