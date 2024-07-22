@@ -1,5 +1,5 @@
 import { ListGroup } from 'react-bootstrap';
-import Rating from '../Rating';
+import Rating from '../main/Rating';
 const ReviewsList = ({ product }) => {
   return (
     <ListGroup variant='flush'>

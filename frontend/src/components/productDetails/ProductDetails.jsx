@@ -1,5 +1,5 @@
 import { ListGroup, Col } from 'react-bootstrap';
-import Rating from '../Rating';
+import Rating from '../main/Rating';
 
 const ProductDetails = ({ product }) => {
   return (

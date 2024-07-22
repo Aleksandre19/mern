@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
-import { ErrorHandlerToast } from '../components/ErrorHandler';
+import { ErrorHandlerToast } from '../components/general/ErrorHandler';
 import { toast } from 'react-toastify';
 
 const useLoginPage = () => {

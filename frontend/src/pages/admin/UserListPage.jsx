@@ -1,8 +1,8 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Spinner } from 'react-bootstrap';
 import { FaTimes, FaTrash, FaEdit, FaCheck } from 'react-icons/fa';
-import Loader from '../../components/Loader';
-import Message from '../../components/Message';
+import Loader from '../../components/general/Loader';
+import Message from '../../components/general/Message';
 import useUserListPage from '../../hooks/admin/useUserListPage';
 
 const UserListPage = () => {

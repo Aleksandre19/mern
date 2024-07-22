@@ -1,6 +1,6 @@
-import Loader from '../components/Loader';
-import GoBackButton from '../components/GoBackButton';
-import ErrorHandler from '../components/ErrorHandler';
+import Loader from '../components/general/Loader';
+import GoBackButton from '../components/general/GoBackButton';
+import ErrorHandler from '../components/general/ErrorHandler';
 import {
   ProductDetailsSection,
   ProductDetails,

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRegisterMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
 import { toast } from 'react-toastify';
-import { ErrorHandlerToast } from '../components/ErrorHandler';
+import { ErrorHandlerToast } from '../components/general/ErrorHandler';
 
 const useRegisterPage = () => {
   // Component base states

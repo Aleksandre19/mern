@@ -1,5 +1,5 @@
 import { Col, Image } from 'react-bootstrap';
-import Meta from '../Meta';
+import Meta from '../general/Meta';
 const ProductDetailsImage = ({ product }) => {
   return (
     <>

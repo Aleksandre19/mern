@@ -1,5 +1,5 @@
 import { ListGroup } from 'react-bootstrap';
-import ButtonWithLoader from '../ButtonWithLoader';
+import ButtonWithLoader from '../general/ButtonWithLoader';
 
 const MarkAsDelivered = ({
   userInfo,

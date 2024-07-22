@@ -1,6 +1,6 @@
 import useProductListPage from '../../hooks/admin/useProductListPage.js';
-import Paginate from '../../components/Paginate';
-import Loader from '../../components/Loader';
+import Paginate from '../../components/general/Paginate.jsx';
+import Loader from '../../components/general/Loader.jsx';
 import {
   AdminProductsContainer,
   AdminProductsHeader,

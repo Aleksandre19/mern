@@ -1,7 +1,7 @@
 import { Form, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import FormContainer from '../components/FormContainer';
-import ButtonWithLoader from '../components/ButtonWithLoader';
+import FormContainer from '../components/general/FormContainer';
+import ButtonWithLoader from '../components/general/ButtonWithLoader';
 import useLoginPage from '../hooks/useLoginPage';
 
 const LoginPage = () => {

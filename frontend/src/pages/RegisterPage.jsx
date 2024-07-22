@@ -1,8 +1,8 @@
-import FormContainer from '../components/FormContainer';
-import Loader from '../components/Loader';
+import FormContainer from '../components/general/FormContainer';
+import Loader from '../components/general/Loader';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import useRegisterPage from '../hooks/useRgisterPage';
-import ButtonWithLoader from '../components/ButtonWithLoader';
+import ButtonWithLoader from '../components/general/ButtonWithLoader';
 
 const RegisterPage = () => {
   const {

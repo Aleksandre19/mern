@@ -1,4 +1,4 @@
-import CheckoutSteps from '../components/CheckoutSteps';
+import CheckoutSteps from '../components/general/CheckoutSteps';
 import { ListGroup } from 'react-bootstrap';
 import { PlaceOrder } from '../components/';
 import { OrderInfo } from '../components/';
@@ -7,7 +7,7 @@ import { PaymentMethods } from '../components/';
 import { OrderItems } from '../components/';
 import { OrderCard } from '../components/';
 import { CardSummary } from '../components/';
-import ButtonWithLoader from '../components/ButtonWithLoader';
+import ButtonWithLoader from '../components/general/ButtonWithLoader';
 import usePlaceOrderPage from '../hooks/usePlaceOrderPage';
 
 function PlaceOrderPage() {

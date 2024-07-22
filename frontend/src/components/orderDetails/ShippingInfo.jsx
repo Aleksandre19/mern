@@ -1,5 +1,5 @@
 import { ListGroup } from 'react-bootstrap';
-import Message from '../Message';
+import Message from '../general/Message';
 
 const ShippingInfo = ({ order, orderPage = true }) => {
   return (

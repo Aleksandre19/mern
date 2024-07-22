@@ -1,5 +1,5 @@
 import { Col, Form } from 'react-bootstrap';
-import ButtonWithLoader from '../ButtonWithLoader';
+import ButtonWithLoader from '../general/ButtonWithLoader';
 
 const UpdateCredentials = ({
   submitHandler,

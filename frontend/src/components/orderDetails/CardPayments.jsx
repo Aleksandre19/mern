@@ -1,6 +1,6 @@
 import { ListGroup } from 'react-bootstrap';
 import { PayPalButtons } from '@paypal/react-paypal-js';
-import Loader from '../Loader';
+import Loader from '../general/Loader';
 const CardPayments = ({
   isPaid,
   isPaying,

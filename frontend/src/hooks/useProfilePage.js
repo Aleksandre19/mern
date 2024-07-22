@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useProfileMutation } from '../slices/userApi';
 import { setCredentials } from '../slices/auth';
 import { useGetUsersOrdersQuery } from '../slices/ordersApi';
-import { ErrorHandlerToast } from '../components/ErrorHandler';
+import { ErrorHandlerToast } from '../components/general/ErrorHandler';
 
 const useProfilePage = () => {
   const dispatch = useDispatch();

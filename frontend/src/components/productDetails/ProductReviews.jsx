@@ -1,6 +1,6 @@
 import { Row, Col } from 'react-bootstrap';
-import Message from '../Message';
-import Loader from '../Loader';
+import Message from '../general/Message';
+import Loader from '../general/Loader';
 
 const ProductReviews = ({ isReviewLoading, product, children }) => {
   return (

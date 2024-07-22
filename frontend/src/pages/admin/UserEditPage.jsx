@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../components/Loader';
-import Message from '../../components/Message';
-import ButtonWithLoader from '../../components/ButtonWithLoader';
-import FormContainer from '../../components/FormContainer';
+import Loader from '../../components/general/Loader';
+import Message from '../../components/general/Message';
+import ButtonWithLoader from '../../components/general/ButtonWithLoader';
+import FormContainer from '../../components/general/FormContainer';
 import useUserEditPage from '../../hooks/admin/useUserEditPage';
 import { toast } from 'react-toastify';
 

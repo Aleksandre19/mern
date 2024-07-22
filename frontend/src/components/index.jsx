@@ -2,6 +2,14 @@
 export { PrivateRoute } from './routes/';
 export { AdminRoute } from './routes/';
 
+// Main page
+export { Header } from './main/';
+export { Footer } from './main/';
+export { Main } from './main/';
+export { Product } from './main/';
+export { Rating } from './main/';
+export { SearchBox } from './main/';
+
 // Order Details Page
 export { OrderDetailsContainer } from './orderDetails/';
 export { OrderInfo } from './orderDetails/';

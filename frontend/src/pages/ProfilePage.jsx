@@ -1,4 +1,4 @@
-import Loader from '../components/Loader';
+import Loader from '../components/general/Loader';
 import useProfilePage from '../hooks/useProfilePage';
 
 import { Profile } from '../components';

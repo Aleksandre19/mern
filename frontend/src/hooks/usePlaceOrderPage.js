@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCreateOrderMutation } from '../slices/ordersApi';
 import { clearCart } from '../slices/cart';
-import { ErrorHandlerToast } from '../components/ErrorHandler';
+import { ErrorHandlerToast } from '../components/general/ErrorHandler';
 
 const usePlaceOrderPage = () => {
   const navigate = useNavigate();

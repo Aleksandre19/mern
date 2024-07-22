@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cart';
 import { toast } from 'react-toastify';
-import { ErrorHandlerToast } from '../components/ErrorHandler';
+import { ErrorHandlerToast } from '../components/general/ErrorHandler';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,

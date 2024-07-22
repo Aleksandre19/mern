@@ -1,7 +1,7 @@
 import { Col, Table, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaTimes } from 'react-icons/fa';
-import ErrorHandler from '../ErrorHandler';
+import ErrorHandler from '../general/ErrorHandler';
 
 const UserOrdersList = ({ orders, error }) => {
   return (

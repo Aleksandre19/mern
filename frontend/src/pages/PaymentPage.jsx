@@ -1,5 +1,5 @@
-import CheckoutSteps from '../components/CheckoutSteps';
-import FormContainer from '../components/FormContainer';
+import CheckoutSteps from '../components/general/CheckoutSteps';
+import FormContainer from '../components/general/FormContainer';
 import { Form, Button, Col } from 'react-bootstrap';
 import usePamentPage from '../hooks/usePaymentPage';
 

@@ -1,4 +1,4 @@
-import Message from '../Message';
+import Message from '../general/Message';
 import { Link } from 'react-router-dom';
 
 const IfEmptyCart = ({ itemsLength }) => {

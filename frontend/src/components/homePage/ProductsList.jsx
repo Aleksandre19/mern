@@ -1,5 +1,5 @@
 import { Row, Col } from 'react-bootstrap';
-import Product from '../Product';
+import Product from '../main/Product';
 
 const ProductsList = ({ data }) => {
   return (

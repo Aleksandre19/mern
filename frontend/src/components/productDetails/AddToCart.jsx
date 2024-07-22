@@ -1,5 +1,5 @@
 import { Row, Col, ListGroup, Form, Card } from 'react-bootstrap';
-import ButtonWithLoader from '../ButtonWithLoader';
+import ButtonWithLoader from '../general/ButtonWithLoader';
 
 const AddToCart = ({
   product,

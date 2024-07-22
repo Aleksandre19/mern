@@ -1,6 +1,6 @@
 import useOrderDetailsPage from '../hooks/useOrderDetailsPage';
-import Loader from '../components/Loader';
-import ErrorHandler from '../components/ErrorHandler';
+import Loader from '../components/general/Loader';
+import ErrorHandler from '../components/general/ErrorHandler';
 
 import {
   OrderDetailsContainer,

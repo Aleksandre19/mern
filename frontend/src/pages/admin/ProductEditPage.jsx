@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import Loader from '../../components/Loader';
-import FormContainer from '../../components/FormContainer';
+import Loader from '../../components/general/Loader';
+import FormContainer from '../../components/general/FormContainer';
 import useProductEditPage from '../../hooks/admin/useProductEditPage';
 
 const ProductEditPage = () => {

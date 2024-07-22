@@ -1,7 +1,7 @@
 import { Table, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import ButtonWithLoader from '../ButtonWithLoader';
+import ButtonWithLoader from '../general/ButtonWithLoader';
 
 const AdminProductsTabel = ({ data, deleteProductLoading, deleteHandler }) => {
   return (

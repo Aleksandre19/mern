@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useGetProductsQuery } from '../slices/product';
-import Meta from '../components/Meta';
+import Meta from '../components/general/Meta';
 import { ProductsList, ProductsCarousel } from '../components';
-import GoBackButton from '../components/GoBackButton';
-import ErrorHandler from '../components/ErrorHandler';
-import Loader from '../components/Loader';
-import Paginate from '../components/Paginate';
+import GoBackButton from '../components/general/GoBackButton';
+import ErrorHandler from '../components/general/ErrorHandler';
+import Loader from '../components/general/Loader';
+import Paginate from '../components/general/Paginate';
 
 const HomeScreen = () => {
   // Get page number

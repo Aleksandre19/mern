@@ -1,6 +1,6 @@
 import { Form, Button } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
-import CheckoutSteps from '../components/CheckoutSteps';
+import FormContainer from '../components/general/FormContainer';
+import CheckoutSteps from '../components/general/CheckoutSteps';
 import useShipping from '../hooks/useShipping';
 
 const ShippingPage = () => {
