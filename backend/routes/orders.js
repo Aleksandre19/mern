@@ -19,94 +19,53 @@ router.post(
   '/',
   isAuth,
   asyncHandler(async (req, res) => {
+    // Validate input
+    const { error } = validateOrder(req.body);
+    if (error) handleError(error, res);
+
+    // Destructure request body
     const { orderItems, shippingAddress, paymentMethod } = req.body;
 
-    if (orderItems && orderItems.length === 0) {
+    // Check if order items exist
+    if (orderItems && orderItems.length === 0)
       return res.status(400).send('No order items');
-      // throw new Error('No order items');
-    } else {
-      // get the ordered items from our database
-      const itemsFromDB = await Product.find({
-        _id: { $in: orderItems.map((x) => x._id) },
-      });
 
-      // map over the order items and use the price from our items from database
-      const dbOrderItems = orderItems.map((itemFromClient) => {
-        const matchingItemFromDB = itemsFromDB.find(
-          (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
-        );
-        return {
-          ...itemFromClient,
-          product: itemFromClient._id,
-          price: matchingItemFromDB.price,
-          _id: undefined,
-        };
-      });
+    // get the ordered items from our database
+    const itemsFromDB = await Product.find({
+      _id: { $in: orderItems.map((x) => x._id) },
+    });
 
-      // calculate prices
-      const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
-        calcPrices(dbOrderItems);
+    // map over the order items and use the price from our items from database
+    const dbOrderItems = orderItems.map((itemFromClient) => {
+      const matchingItemFromDB = itemsFromDB.find(
+        (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
+      );
+      return {
+        ...itemFromClient,
+        product: itemFromClient._id,
+        price: matchingItemFromDB.price,
+        _id: undefined,
+      };
+    });
 
-      const order = new Order({
-        orderItems: dbOrderItems,
-        user: req.user._id,
-        shippingAddress,
-        paymentMethod,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-      });
+    // calculate prices
+    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
+      calcPrices(dbOrderItems);
 
-      const createdOrder = await order.save();
+    const order = new Order({
+      orderItems: dbOrderItems,
+      user: req.user._id,
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    });
 
-      res.status(201).json(createdOrder);
-    }
-    // // Validate input
-    // const { error } = validateOrder(req.body);
-    // if (error) handleError(error, res);
+    const createdOrder = await order.save();
 
-    // // Grab order fields
-    // const {
-    //   orderItems,
-    //   shippingAddress,
-    //   paymentMethod,
-    //   itemsPrice,
-    //   taxPrice,
-    //   shippingPrice,
-    //   totalPrice,
-    // } = req.body;
-
-    // // Check if order items exist
-    // if (orderItems && orderItems.length === 0)
-    //   res.status(400).send('No order items');
-
-    // // Add product Id to order
-    // const orderItemsWithProductID = orderItems.map((i) => ({
-    //   ...i,
-    //   product: i._id,
-    //   _id: undefined,
-    // }));
-
-    // // Create new order
-    // const order = new Order({
-    //   user: req.user._id,
-    //   orderItems: orderItemsWithProductID,
-    //   shippingAddress,
-    //   paymentMethod,
-    //   itemsPrice,
-    //   taxPrice,
-    //   shippingPrice,
-    //   totalPrice,
-    // });
-
-    // const { data, error: creatError } = await handleDb(order.save());
-
-    // // Handle server error
-    // if (creatError) handleError(creatError, res);
-
-    // // Send response
-    // res.status(201).json(data);
+    res.status(201).json(createdOrder);
   })
 );
 
@@ -173,74 +132,52 @@ router.get(
   })
 );
 
-// @desc Update order
+// @desc Pay order
 // @route PUT /api/orders/:id
 // @access Private
 router.put(
-  '/:id',
+  '/:id/pay/',
   isAuth,
   validateObjectId,
   asyncHandler(async (req, res) => {
+    // Verify payment and handle error
     const { verified, value } = await verifyPayPalPayment(req.body.id);
-    // if (!verified) throw new Error('Payment not verified');
     if (!verified) return res.status(400).json('Payment not verified');
 
     // check if this transaction has been used before
     const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
-    // if (!isNewTransaction) throw new Error('Transaction has been used before');
     if (!isNewTransaction)
       return res.status(400).json('Transaction has been used before');
 
-    const order = await Order.findById(req.params.id);
+    // Find order
+    const { data: order, error } = await handleDb(
+      Order.findById(req.params.id)
+    );
 
-    if (order) {
-      // check the correct amount was paid
-      const paidCorrectAmount = order.totalPrice.toString() === value;
-      // if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
-      if (!paidCorrectAmount)
-        return res.status(400).json('Incorrect amount paid');
+    // Handle server and not found errors
+    if (error) handleError(error, res);
+    if (!order) return res.status(404).json('Order not found');
 
-      order.isPaid = true;
-      order.paidAt = Date.now();
-      order.paymentResult = {
-        id: req.body.id,
-        status: req.body.status,
-        update_time: req.body.update_time,
-        email_address: req.body.payer.email_address,
-      };
+    // check the correct amount was paid
+    const paidCorrectAmount = order.totalPrice.toString() === value;
+    if (!paidCorrectAmount)
+      return res.status(400).json('Incorrect amount paid');
 
-      const updatedOrder = await order.save();
+    // Set up update order
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
 
-      res.json(updatedOrder);
-    } else {
-      res.status(404);
-      throw new Error('Order not found');
-    }
-    // // Find order
-    // const { data: order, error } = await handleDb(
-    //   Order.findById(req.params.id)
-    // );
+    // Update order
+    const { data: upOrder, error: upError } = await handleDb(order.save());
+    if (upError) handleError(upError, res);
 
-    // // Handle server and not found errors
-    // if (error) handleError(error, res);
-    // if (!order) return res.status(404).json('Order not found');
-
-    // // Set up order fields
-    // order.isPaid = true;
-    // order.paidAt = Date.now();
-    // order.paymentResult = {
-    //   id: req.body.id,
-    //   status: req.body.status,
-    //   update_time: req.body.update_time,
-    //   email_address: req.body.payer.email_address,
-    // };
-
-    // // Update order and handle server error
-    // const { data: upOrder, error: upError } = await handleDb(order.save());
-    // if (upError) handleError(upError, res);
-
-    // // Send response
-    // res.status(200).json(upOrder);
+    res.json(upOrder);
   })
 );
 
