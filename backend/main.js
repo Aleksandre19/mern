@@ -17,6 +17,7 @@ import products from './routes/products.js';
 import users from './routes/users.js';
 import orders from './routes/orders.js';
 import uploads from './routes/uploads.js';
+import categories from './routes/categories.js';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

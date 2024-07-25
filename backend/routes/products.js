@@ -15,7 +15,7 @@ router.get(
   '/',
   asyncHandler(async (req, res) => {
     // Pagination parameters
-    const pageSize = process.env.PAGINATION_LIMIT || 8;
+    const pageSize = process.env.PAGINATION_LIMIT || 24;
     const page = Number(req.query.pageNumber) || 1;
 
     // ket search keyword

@@ -1,8 +1,9 @@
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 import colors from 'colors';
 import users from './users.js';
-import products from './products.js';
+import newProducts from './newProducts.js';
 import User from '../models/user.js';
 import Product from '../models/product.js';
 import Order from '../models/order.js';
@@ -19,8 +20,12 @@ const importData = async () => {
 
     const adminUser = createdUsers[0]._id;
 
-    const sampleProducts = products.map((product) => {
-      return { ...product, user: adminUser };
+    const sampleProducts = newProducts.map((product) => {
+      return {
+        ...product,
+        category: new mongoose.Types.ObjectId(product.category),
+        user: adminUser,
+      };
     });
 
     await Product.insertMany(sampleProducts);
