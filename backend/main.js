@@ -31,6 +31,7 @@ app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/uploads', uploads);
+app.use('/api/categories', categories);
 
 // const __dirname = path.resolve();
 // app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

@@ -51,10 +51,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       ref: 'Category',
     },
-    // category: {
-    //   type: String,
-    //   required: true,
-    // },
     description: {
       type: String,
       required: true,

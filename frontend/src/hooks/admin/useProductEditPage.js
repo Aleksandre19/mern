@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { ErrorHandlerToast } from '../../components/general/ErrorHandler';
 import {
   useUpdateProductMutation,
   useGetProductDetailsQuery,
   useUploadImageMutation,
 } from '../../slices/product';
+import { useGetCategoriesQuery } from '../../slices/categoryApi';
 import { toast } from 'react-toastify';
 
 const useProductEditPage = (
@@ -15,8 +16,6 @@ const useProductEditPage = (
   setPrice,
   image,
   setImage,
-  brand,
-  setBrand,
   category,
   setCategory,
   countInStock,
@@ -27,6 +26,12 @@ const useProductEditPage = (
   // Product Id
   const { id: prodyctId } = useParams();
   const navigate = useNavigate();
+
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: categoriesIsLoading,
+  } = useGetCategoriesQuery();
 
   // Product by Id
   const {
@@ -42,19 +47,17 @@ const useProductEditPage = (
     setName(product.name);
     setPrice(product.price);
     setImage(product.image);
-    setBrand(product.brand);
     setCategory(product.category);
     setCountInStock(product.countInStock);
     setDescription(product.description);
   }, [product]);
 
   // Update product endpoint
-  const [updateProduct, { isLoading: updateLoading, error: updateError }] =
+  const [updateProduct, { isLoading: updateLoading }] =
     useUpdateProductMutation();
 
   // Upload image endpoint
-  const [uploadImage, { isLoading: uploadLoading, error: uploadError }] =
-    useUploadImageMutation();
+  const [uploadImage, { isLoading: uploadLoading }] = useUploadImageMutation();
 
   // Submit handler
   const submitHandler = async (e) => {
@@ -66,7 +69,6 @@ const useProductEditPage = (
       name,
       price,
       image,
-      brand,
       category,
       countInStock,
       description,
@@ -76,13 +78,7 @@ const useProductEditPage = (
     const result = await updateProduct(updatedProduct);
 
     // Handle error
-    if (result.error)
-      return toast.error(
-        result.error?.data ||
-          result.error?.data?.message ||
-          result.error.message ||
-          'Authentication error'
-      );
+    if (result.error) return ErrorHandlerToast(result.error);
 
     // Handle success
     toast.success('Product updated successfully');
@@ -96,7 +92,7 @@ const useProductEditPage = (
     formData.append('image', e.target.files[0]);
 
     const { data, error } = await uploadImage(formData);
-    if (error) return toast.error(error.data.message);
+    if (error) return ErrorHandlerToast(error);
 
     setImage(data.image);
     toast.success(data.message);
@@ -105,12 +101,13 @@ const useProductEditPage = (
   return {
     submitHandler,
     uploadImageHandler,
+    categories,
     productLoading,
     updateLoading,
     uploadLoading,
+    categoriesIsLoading,
     productError,
-    updateError,
-    uploadError,
+    categoriesError,
   };
 };
 

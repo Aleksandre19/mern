@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import _ from 'lodash';
 import Product from '../models/product.js';
+import Category from '../models/category.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
@@ -30,6 +31,7 @@ router.get(
       Product.find({ ...keyword })
         .limit(pageSize)
         .skip(pageSize * (page - 1))
+        .populate('category')
     );
 
     // Handle server and not found errors
@@ -69,7 +71,9 @@ router.get(
   validateObjectId,
   asyncHandler(async (req, res) => {
     // Find product
-    const { data, error } = await handleDb(Product.findById(req.params.id));
+    const { data, error } = await handleDb(
+      Product.findById(req.params.id).populate('category')
+    );
 
     // Handle server and not found errors
     if (error) handleError(error, res);
@@ -88,6 +92,9 @@ router.post(
   isAuth,
   isAdmin,
   asyncHandler(async (req, res) => {
+    // Default category
+    const defaultCategory = await Category.findOne({ name: 'new_arrivals' });
+
     // Products dummy data
     const product = new Product({
       name: 'Sample name',
@@ -95,7 +102,7 @@ router.post(
       user: req.user._id,
       image: '/images/sample.jpg',
       brand: 'Sample brand',
-      category: 'Sample category',
+      category: defaultCategory._id,
       countInStock: 0,
       numReviews: 0,
       description: 'Sample description',
@@ -127,7 +134,7 @@ router.put(
     if (error) return res.status(400).json(error.details[0].message);
 
     // Pick product fileds from requesr body
-    const { name, price, description, image, brand, category, countInStock } =
+    const { name, price, description, image, category, countInStock } =
       req.body;
 
     // Find product
@@ -144,7 +151,6 @@ router.put(
     product.price = price || product.price;
     product.description = description || product.description;
     product.image = image || product.image;
-    product.brand = brand || product.brand;
     product.category = category || product.category;
     product.countInStock = countInStock || product.countInStock;
 
