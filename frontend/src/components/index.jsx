@@ -31,8 +31,11 @@ export { ReviewsList } from './productDetails/';
 export { WriteComment } from './productDetails/';
 
 // Home Page
+export { HomePage } from './homePage';
 export { ProductsList } from './homePage/';
 export { ProductsCarousel } from './homePage/';
+export { SideBar } from './homePage/';
+export { ProductsWrapper } from './homePage/';
 
 // Profile Page
 export { Profile } from './profilePage/';
