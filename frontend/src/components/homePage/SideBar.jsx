@@ -15,7 +15,9 @@ const SideBar = () => {
       <ListGroup variant='flush'>
         {data?.map((category) => (
           <ListGroup.Item key={category._id}>
-            <Link>{category.friendly_name}</Link>
+            <Link to={`/category/${category.name}`}>
+              {category.friendly_name}
+            </Link>
           </ListGroup.Item>
         ))}
       </ListGroup>

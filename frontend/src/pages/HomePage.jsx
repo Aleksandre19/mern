@@ -15,8 +15,7 @@ import {
 
 const HomeScreen = () => {
   // Get page number
-  const { pageNumber, keyword } = useParams();
-
+  const { pageNumber, keyword, categoryname } = useParams();
   // Get products
   const {
     data,
@@ -25,6 +24,7 @@ const HomeScreen = () => {
   } = useGetProductsQuery({
     keyword,
     pageNumber,
+    categoryname,
   });
 
   // Handle loading

@@ -5,11 +5,12 @@ export const productSlice = () =>
   apiClice.injectEndpoints({
     endpoints: (builder) => ({
       getProducts: builder.query({
-        query: ({ keyword, pageNumber }) => ({
+        query: ({ keyword, pageNumber, categoryname }) => ({
           url: PRODUCTS_URL,
           params: {
             keyword,
             pageNumber,
+            categoryname,
           },
         }),
         providesTags: ['Products'],

@@ -3,6 +3,7 @@ const router = express.Router();
 import _ from 'lodash';
 import Product from '../models/product.js';
 import Category from '../models/category.js';
+import buildProductQuery from '../controllers/productController.js';
 import { isAuth, isAdmin } from '../middlewares/auth.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import validateObjectId from '../middlewares/validateObjectId.js';
@@ -19,16 +20,12 @@ router.get(
     const pageSize = process.env.PAGINATION_LIMIT || 24;
     const page = Number(req.query.pageNumber) || 1;
 
-    // ket search keyword
-    const keyword = req.query.keyword
-      ? { name: { $regex: req.query.keyword, $options: 'i' } }
-      : {};
-
-    const totalDocuments = await Product.countDocuments({ ...keyword });
+    // Set up the query
+    const { query, totalDocuments } = await buildProductQuery(req);
 
     // Get products
     const { data: products, error } = await handleDb(
-      Product.find({ ...keyword })
+      Product.find(query)
         .limit(pageSize)
         .skip(pageSize * (page - 1))
         .populate('category')
