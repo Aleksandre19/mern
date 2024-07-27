@@ -4,6 +4,7 @@ import { handleDb, handleError } from '../utils/handleDb.js';
 
 const buildProductQuery = async (req) => {
   const query = {};
+  let catName = '';
 
   // Get category name and set query for it
   const categoryName = req.query.categoryname;
@@ -14,6 +15,7 @@ const buildProductQuery = async (req) => {
 
     if (error) return handleError(error);
     query.category = category._id;
+    catName = category.friendly_name;
   }
 
   // Get search keyword and set query for it
@@ -25,6 +27,7 @@ const buildProductQuery = async (req) => {
   return {
     query,
     totalDocuments,
+    catName,
   };
 };
 

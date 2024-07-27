@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom';
-import { useGetProductsQuery } from '../slices/product';
 import Meta from '../components/general/Meta';
 import GoBackButton from '../components/general/GoBackButton';
 import ErrorHandler from '../components/general/ErrorHandler';
@@ -13,19 +11,11 @@ import {
   ProductsList,
 } from '../components';
 
+import useHomePage from '../hooks/useHomePage';
+
 const HomeScreen = () => {
-  // Get page number
-  const { pageNumber, keyword, categoryname } = useParams();
-  // Get products
-  const {
-    data,
-    isLoading,
-    error: productError,
-  } = useGetProductsQuery({
-    keyword,
-    pageNumber,
-    categoryname,
-  });
+  // Custom hook
+  const { data, title, keyword, isLoading, productError } = useHomePage();
 
   // Handle loading
   if (isLoading) return <Loader />;
@@ -45,7 +35,7 @@ const HomeScreen = () => {
       <HomePage>
         <SideBar />
         <ProductsWrapper>
-          <h1>Latest Products </h1>
+          <h1>{title}</h1>
           <ProductsList data={data} />
           <Paginate pages={data.pages} page={data.page} keyword={keyword} />
         </ProductsWrapper>

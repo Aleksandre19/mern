@@ -21,7 +21,7 @@ router.get(
     const page = Number(req.query.pageNumber) || 1;
 
     // Set up the query
-    const { query, totalDocuments } = await buildProductQuery(req);
+    const { query, totalDocuments, catName } = await buildProductQuery(req);
 
     // Get products
     const { data: products, error } = await handleDb(
@@ -36,7 +36,12 @@ router.get(
     if (!products) return res.status(404).json('Products not found');
 
     // Send response
-    res.json({ products, page, pages: Math.ceil(totalDocuments / pageSize) });
+    res.json({
+      products,
+      category: catName,
+      page,
+      pages: Math.ceil(totalDocuments / pageSize),
+    });
   })
 );
 
