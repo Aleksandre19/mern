@@ -1,7 +1,11 @@
-import { Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-const ProductsWrapper = ({ children }) => {
-  return <Col lg={9}>{children}</Col>;
+const ProductsHeader = ({ children }) => {
+  return (
+    <Col lg={9}>
+      <Row>{children}</Row>
+    </Col>
+  );
 };
 
-export default ProductsWrapper;
+export default ProductsHeader;

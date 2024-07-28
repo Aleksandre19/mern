@@ -9,13 +9,23 @@ import {
   SideBar,
   ProductsWrapper,
   ProductsList,
+  ProductTitle,
+  ProductSorting,
 } from '../components';
-
 import useHomePage from '../hooks/useHomePage';
 
 const HomeScreen = () => {
   // Custom hook
-  const { data, title, keyword, isLoading, productError } = useHomePage();
+  const {
+    data,
+    title,
+    keyword,
+    categoryname,
+    sort,
+    setSort,
+    isLoading,
+    productError,
+  } = useHomePage();
 
   // Handle loading
   if (isLoading) return <Loader />;
@@ -35,9 +45,16 @@ const HomeScreen = () => {
       <HomePage>
         <SideBar />
         <ProductsWrapper>
-          <h1>{title}</h1>
+          <ProductTitle title={title} />
+          <ProductSorting sort={sort} setSort={setSort} />
+
           <ProductsList data={data} />
-          <Paginate pages={data.pages} page={data.page} keyword={keyword} />
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+            keyword={keyword}
+            category={categoryname}
+          />
         </ProductsWrapper>
       </HomePage>
     </>

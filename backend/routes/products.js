@@ -21,11 +21,13 @@ router.get(
     const page = Number(req.query.pageNumber) || 1;
 
     // Set up the query
-    const { query, totalDocuments, catName } = await buildProductQuery(req);
+    const { query, totalDocuments, catName, sortBy } =
+      await buildProductQuery(req);
 
     // Get products
     const { data: products, error } = await handleDb(
       Product.find(query)
+        .sort(sortBy)
         .limit(pageSize)
         .skip(pageSize * (page - 1))
         .populate('category')

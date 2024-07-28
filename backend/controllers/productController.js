@@ -22,12 +22,28 @@ const buildProductQuery = async (req) => {
   const keyword = req.query.keyword;
   if (keyword) query.name = { $regex: req.query.keyword, $options: 'i' };
 
-  const totalDocuments = await Product.countDocuments({ ...keyword });
+  // Default sorting option
+  let sortBy = { createdAt: -1 };
+  // Get sorting keyword
+  const sortKeyword = req.query.sort;
+  // Sorting options
+  const sortOption = {
+    name: { name: 1 },
+    price: { price: 1 },
+    rating: { rating: -1 },
+    inStock: { countInStock: -1 },
+  };
+  // Set sorting option
+  if (sortKeyword) sortBy = sortOption[sortKeyword];
+
+  // Count product
+  const totalDocuments = await Product.countDocuments(query);
 
   return {
     query,
     totalDocuments,
     catName,
+    sortBy,
   };
 };
 

@@ -36,6 +36,8 @@ export { ProductsList } from './homePage/';
 export { ProductsCarousel } from './homePage/';
 export { SideBar } from './homePage/';
 export { ProductsWrapper } from './homePage/';
+export { ProductTitle } from './homePage/';
+export { ProductSorting } from './homePage/';
 
 // Profile Page
 export { Profile } from './profilePage/';

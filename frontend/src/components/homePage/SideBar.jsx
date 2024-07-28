@@ -11,8 +11,11 @@ const SideBar = () => {
 
   if (error) return ErrorHandler(error);
   return (
-    <Col lg={3}>
+    <Col lg={3} className='d-none d-lg-block pe-4'>
       <ListGroup variant='flush'>
+        <ListGroup.Item>
+          <Link to='/'>All Products</Link>
+        </ListGroup.Item>
         {data?.map((category) => (
           <ListGroup.Item key={category._id}>
             <Link to={`/category/${category.name}`}>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetProductsQuery } from '../slices/product';
@@ -10,6 +10,9 @@ const useHomePage = () => {
 
   // Get page number
   const { pageNumber, keyword, categoryname } = useParams();
+
+  // Default sort option is a date
+  const [sort, setSort] = useState('date');
 
   // Get title
   const title = useSelector((state) => state.home.title);
@@ -23,6 +26,7 @@ const useHomePage = () => {
     keyword,
     pageNumber,
     categoryname,
+    sort,
   });
 
   // Update product title on search and category selection.
@@ -38,6 +42,9 @@ const useHomePage = () => {
     data,
     title,
     keyword,
+    categoryname,
+    sort,
+    setSort,
     isLoading,
     productError,
   };
