@@ -1,0 +1,37 @@
+.header-gradient {
+  display: block;
+  background: linear-gradient(to bottom right, #6060F5 40%, #FDB90D 100%);
+}
+
+header h1,
+header p {
+  color: #f0f0f0;
+}
+
+header h1 {
+  color: #cddc39;
+  font-size: 4rem;
+  font-weight: bolder;
+}
+
+header p {
+  font-size: 24px;
+}
+
+header h2 {
+  font-size: 5rem;
+  color: rgb(15, 23, 42);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: none;
+}
+
+/* .carousel img,
+.carousel-item img {
+  mix-blend-mode: multiply !important;
+} */
+ 
+
+

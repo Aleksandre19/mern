@@ -1,5 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Carousel, Image, Row, Col, ListGroup } from 'react-bootstrap';
+import {
+  Carousel,
+  Image,
+  Row,
+  Col,
+  ListGroup,
+  Button,
+  Container,
+} from 'react-bootstrap';
 import Rating from '../main/Rating';
 import Loader from '../general/Loader';
 import ErrorHandler from '../general/ErrorHandler';
@@ -13,39 +21,36 @@ const ProductsCarousel = () => {
   if (error) return ErrorHandler(error);
 
   return (
-    <Carousel className='my-4'>
-      {products.map((product) => (
-        <Carousel.Item key={product._id}>
-          <Row>
-            <Col md={6}>
-              <Link to={`/product/${product._id}`}>
-                <Image src={product.image} alt={product.name} fluid />
-                <Carousel.Caption className='carousel-caption'>
-                  <h2>${product.price} </h2>
-                </Carousel.Caption>
-              </Link>
-            </Col>
-            <Col md={6} className='px-4 py-2'>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
+    <Container className='pt-3 pb-5'>
+      <Carousel className='my-4'>
+        {products.map((product) => (
+          <Carousel.Item key={product._id}>
+            <Row>
+              <Col lg={8} className='px-4 py-2'>
+                <h1>{product.name}</h1>
+                <p className='text-xl'>{product.description}</p>
+                <Row>
+                  <Col>
+                    <h2 className='mt-4'>${product.price}</h2>
+                  </Col>
+                  <Col className='d-flex justify-content-center align-items-center button-container'>
+                    <Button type='button' size={'lg'}>
+                      Add To Cart
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
 
-                <ListGroup.Item>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
-        </Carousel.Item>
-      ))}
-    </Carousel>
+              <Col lg={4} className='text-center'>
+                <Link to={`/product/${product._id}`}>
+                  <Image src={product.image} alt={product.name} fluid />
+                </Link>
+              </Col>
+            </Row>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </Container>
   );
 };
 

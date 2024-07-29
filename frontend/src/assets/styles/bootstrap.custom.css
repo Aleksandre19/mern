@@ -45,7 +45,7 @@
   --bs-warning-rgb: 243, 156, 18;
   --bs-danger-rgb: 231, 76, 60;
   --bs-light-rgb: 244, 244, 244;
-  --bs-dark-rgb: 123, 138, 139;
+  --bs-dark-rgb: 15, 23, 42;
   --bs-primary-text: #303d4a;
   --bs-secondary-text: #7b8a8b;
   --bs-success-text: #13967d;
@@ -6988,11 +6988,11 @@ fieldset:disabled .btn {
 }
 
 .carousel-indicators {
-  position: absolute;
+  /* position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2;
+  z-index: 2; */
   display: flex;
   justify-content: center;
   padding: 0;

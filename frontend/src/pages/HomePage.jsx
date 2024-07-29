@@ -5,7 +5,6 @@ import Loader from '../components/general/Loader';
 import Paginate from '../components/general/Paginate';
 import {
   HomePage,
-  ProductsCarousel,
   SideBar,
   ProductsWrapper,
   ProductsList,
@@ -35,7 +34,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      {keyword ? <GoBackButton /> : <ProductsCarousel />}
+      {keyword && <GoBackButton />}
 
       <Meta
         title='MERN'

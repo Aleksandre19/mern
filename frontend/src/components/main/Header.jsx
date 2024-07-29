@@ -9,6 +9,7 @@ import { logout } from '../../slices/auth';
 import logo from '../../assets/logo.png';
 import { toast } from 'react-toastify';
 import SearchBox from './SearchBox';
+import { ProductsCarousel } from '../homePage';
 
 const Header = () => {
   // Component base states
@@ -36,16 +37,24 @@ const Header = () => {
     navigate('/login');
   };
   return (
-    <header>
-      <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
-        <Container>
+    <header className='header-gradient m-3 rounded-4'>
+      <Container className='pt-3'>
+        <Navbar
+          bg={'dark'}
+          className='px-3 py-1 rounded-5'
+          variant='dark'
+          expand='lg'
+          collapseOnSelect
+        >
           <LinkContainer to='/'>
             <Navbar.Brand>
               <img src={logo} />
               ProShop
             </Navbar.Brand>
           </LinkContainer>
+
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
+
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
               <SearchBox />
@@ -60,6 +69,7 @@ const Header = () => {
                   )}
                 </Nav.Link>
               </LinkContainer>
+
               {userInfo ? (
                 <>
                   <NavDropdown title={userInfo.name} id='username'>
@@ -92,8 +102,10 @@ const Header = () => {
               )}
             </Nav>
           </Navbar.Collapse>
-        </Container>
-      </Navbar>
+        </Navbar>
+      </Container>
+
+      <ProductsCarousel />
     </header>
   );
 };
