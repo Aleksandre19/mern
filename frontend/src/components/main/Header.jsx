@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Badge, Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -19,6 +19,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Get home page
+  const isHomePage = useLocation().pathname === '/';
+
   // Logout API action
   const [logoutApiCall] = useLogoutMutation();
 
@@ -38,10 +41,10 @@ const Header = () => {
   };
   return (
     <header className='header-gradient m-3 rounded-4'>
-      <Container className='pt-3'>
+      <Container className='py-3'>
         <Navbar
           bg={'dark'}
-          className='px-3 py-1 rounded-5'
+          className='px-3 py-1  rounded-5'
           variant='dark'
           expand='lg'
           collapseOnSelect
@@ -105,7 +108,7 @@ const Header = () => {
         </Navbar>
       </Container>
 
-      <ProductsCarousel />
+      {isHomePage && <ProductsCarousel />}
     </header>
   );
 };

@@ -1,4 +1,9 @@
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import truncate from '../../utils/truncate';
+import { addToCart } from '../../slices/cart';
+
 import {
   Carousel,
   Image,
@@ -14,7 +19,15 @@ import ErrorHandler from '../general/ErrorHandler';
 import { useGetTopProductsQuery } from '../../slices/product';
 
 const ProductsCarousel = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { data: products, isLoading, error } = useGetTopProductsQuery();
+
+  const addToCartHandler = async (product) => {
+    dispatch(addToCart({ ...product, qty: 1 }));
+    navigate('/cart');
+  };
 
   if (isLoading) return <Loader />;
 
@@ -27,21 +40,48 @@ const ProductsCarousel = () => {
           <Carousel.Item key={product._id}>
             <Row>
               <Col lg={8} className='px-4 py-2'>
+                {/* TITLE */}
                 <h1>{product.name}</h1>
-                <p className='text-xl'>{product.description}</p>
+
+                {/* IMAGE FOR SMALL SCREENS */}
+                <Col className='d-flex d-lg-none my-5 justify-content-center align-items-center'>
+                  <Link to={`/product/${product._id}`}>
+                    <Image src={product.image} alt={product.name} fluid />
+                  </Link>
+                </Col>
+
+                {/* DESCRIPTION */}
+                <p className='mb-5'>{truncate(product.description, 230)}</p>
+
+                {/* PRICE AND CART BUTTON */}
                 <Row>
-                  <Col>
-                    <h2 className='mt-4'>${product.price}</h2>
+                  {/* PRICE */}
+                  <Col
+                    sm={'auto'}
+                    className='d-flex justify-content-right align-items-center'
+                  >
+                    <h2 className='mb-0'>${product.price}</h2>
                   </Col>
-                  <Col className='d-flex justify-content-center align-items-center button-container'>
-                    <Button type='button' size={'lg'}>
+
+                  {/* CART BUTTON */}
+                  <Col className='d-flex justify-content-right align-items-center'>
+                    <Button
+                      type='button'
+                      size={'lg'}
+                      className='p-3'
+                      onClick={() => addToCartHandler(product)}
+                    >
                       Add To Cart
                     </Button>
                   </Col>
                 </Row>
               </Col>
 
-              <Col lg={4} className='text-center'>
+              {/* IMAGE FOR LARGE SCREENS */}
+              <Col
+                lg={4}
+                className='d-none d-lg-flex justify-content-right align-items-center'
+              >
                 <Link to={`/product/${product._id}`}>
                   <Image src={product.image} alt={product.name} fluid />
                 </Link>

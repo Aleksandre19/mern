@@ -19,13 +19,18 @@ header p {
 }
 
 header h2 {
-  font-size: 5rem;
+  font-size: 4rem;
   color: rgb(15, 23, 42);
 }
 
 .carousel-control-prev,
 .carousel-control-next {
   display: none;
+}
+
+header .carousel button {
+  background-color: #ff9800;
+  border: 1px solid #ca7800;
 }
 
 /* .carousel img,
