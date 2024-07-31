@@ -33,6 +33,31 @@ header .carousel button {
   border: 1px solid #ca7800;
 }
 
+header .carousel button.hero-btn:hover {
+  background-color: #ea8e04;
+  border: 1px solid #bc7100;
+}
+
+@media screen and (max-width: 992px) {
+  header h1 {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  header h2 {
+    width: 100%;
+    text-align: center;
+  }
+  
+}
+
+@media screen and (max-width: 425px) {
+  header {
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
 /* .carousel img,
 .carousel-item img {
   mix-blend-mode: multiply !important;

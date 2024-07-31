@@ -64,11 +64,11 @@ const ProductsCarousel = () => {
                   </Col>
 
                   {/* CART BUTTON */}
-                  <Col className='d-flex justify-content-right align-items-center'>
+                  <Col className='d-flex justify-content-center justify-content-md-start align-items-center'>
                     <Button
                       type='button'
                       size={'lg'}
-                      className='p-3'
+                      className='p-3 mt-3 mt-md-0 hero-btn'
                       onClick={() => addToCartHandler(product)}
                     >
                       Add To Cart

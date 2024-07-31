@@ -40,7 +40,7 @@ const Header = () => {
     navigate('/login');
   };
   return (
-    <header className='header-gradient m-3 rounded-4'>
+    <header className='header-gradient m-md-3 rounded-4'>
       <Container className='py-3'>
         <Navbar
           bg={'dark'}
