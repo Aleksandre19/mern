@@ -28,6 +28,12 @@ header h2 {
   display: none;
 }
 
+header .carousel img {
+  box-shadow: 1px 1px 5px 0px rgb(0 0 0 / 20%);
+  border: 2px solid #f6f6f6;
+  border-radius: 1rem;
+}
+
 header .carousel button {
   background-color: #ff9800;
   border: 1px solid #ca7800;
@@ -50,6 +56,7 @@ header .carousel button.hero-btn:hover {
   }
   
 }
+
 
 @media screen and (max-width: 425px) {
   header {
