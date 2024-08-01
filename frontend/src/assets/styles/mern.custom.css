@@ -1,6 +1,14 @@
+body {
+  background-color: white;
+}
+
 .header-gradient {
   display: block;
   background: linear-gradient(to bottom right, #6060F5 40%, #FDB90D 100%);
+}
+
+header {
+  padding-bottom: 130px;
 }
 
 header h1,
@@ -43,6 +51,39 @@ header .carousel button.hero-btn:hover {
   background-color: #ea8e04;
   border: 1px solid #bc7100;
 }
+
+
+main .sidebar .list-group-item a{
+  display: block;
+  margin-left: 0px;
+  text-decoration: none;
+  color: white;
+  transition: margin-left 0.2s ease-in-out;
+}
+
+main .sidebar .list-group-item {
+  border-bottom-color: #3a4256;
+  transition: background-color 0.2s ease-in-out; 
+}
+
+main .sidebar .active,
+main .sidebar .list-group-item:hover{
+  background-color: #6060F5;
+}
+
+main .sidebar .list-group-item a:hover {
+  margin-left: 10px;
+}
+
+
+main .sidebar .list-group-item:first-child{
+  border-radius: 15px 0px 0px 0px;
+}
+
+main .sidebar .list-group-item:last-child {
+  border-radius: 0px 0px 0px 15px;
+}
+
 
 @media screen and (max-width: 992px) {
   header h1 {

@@ -1,7 +1,11 @@
 import { Row } from 'react-bootstrap';
 
 const HomePage = ({ children }) => {
-  return <Row className='pt-5'>{children}</Row>;
+  return (
+    <Row className='g-0' style={{ marginTop: '-150px' }}>
+      {children}
+    </Row>
+  );
 };
 
 export default HomePage;
