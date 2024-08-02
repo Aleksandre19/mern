@@ -1,9 +1,12 @@
 import { Row, Col } from 'react-bootstrap';
+import { useLocationContext } from '../../contexts';
 
 const ProductsHeader = ({ children }) => {
+  const { search } = useLocationContext();
+
   return (
     <Col
-      lg={9}
+      lg={search ? 12 : 9}
       className='p-4 rounded-4'
       style={{ backgroundColor: '#F7FAFC' }}
     >

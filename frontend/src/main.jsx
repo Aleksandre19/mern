@@ -17,6 +17,7 @@ import {
 } from 'react-router-dom';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { HelmetProvider } from 'react-helmet-async';
+import { LocationProvider } from './contexts/';
 
 // Public routes
 import HomePage from './pages/HomePage.jsx';
@@ -43,7 +44,14 @@ import UserEditPage from './pages/admin/UserEditPage.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<App />}>
+    <Route
+      path='/'
+      element={
+        <LocationProvider>
+          <App />
+        </LocationProvider>
+      }
+    >
       <Route index={true} path='/' element={<HomePage />} />
       <Route path='/search/:keyword' element={<HomePage />} />
       <Route path='/search/:keyword/page/:pageNumber' element={<HomePage />} />

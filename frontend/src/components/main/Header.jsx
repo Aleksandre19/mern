@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import SearchBox from './SearchBox';
 import { ProductsCarousel } from '../homePage';
 
+import { useLocationContext } from '../../contexts/';
+
 const Header = () => {
   // Component base states
   const { orderItems } = useSelector((state) => state.cart);
@@ -19,8 +21,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get home page
-  const isHomePage = useLocation().pathname === '/';
+  // Get home and category pages to truck carousel appearance;
+  const { isHomePage, categories } = useLocationContext();
 
   // Logout API action
   const [logoutApiCall] = useLogoutMutation();
@@ -40,7 +42,13 @@ const Header = () => {
     navigate('/login');
   };
   return (
-    <header className='header-gradient m-md-3 rounded-4'>
+    <header
+      className={`${
+        isHomePage || categories
+          ? 'header-gradient padding-b m-md-3 rounded-4'
+          : 'header-gradient m-md-3 rounded-4'
+      }`}
+    >
       <Container className='py-3'>
         <Navbar
           bg={'dark'}
@@ -108,7 +116,7 @@ const Header = () => {
         </Navbar>
       </Container>
 
-      {isHomePage && <ProductsCarousel />}
+      {(isHomePage || categories) && <ProductsCarousel />}
     </header>
   );
 };

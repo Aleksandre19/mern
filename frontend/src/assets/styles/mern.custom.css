@@ -7,7 +7,7 @@ body {
   background: linear-gradient(to bottom right, #6060F5 40%, #FDB90D 100%);
 }
 
-header {
+.padding-b {
   padding-bottom: 130px;
 }
 
