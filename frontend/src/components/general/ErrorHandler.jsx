@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import Message from './Message';
 
 const ErrorHandler = (error) => {
-  console.log('ErrorHandler Error: ', error);
   return (
     error && (
       <Message variant='danger'>
@@ -18,7 +17,6 @@ const ErrorHandler = (error) => {
 };
 
 const ErrorHandlerToast = (error) => {
-  console.log('ErrorHandlerToast Error: ', error);
   return (
     error &&
     toast.error(
