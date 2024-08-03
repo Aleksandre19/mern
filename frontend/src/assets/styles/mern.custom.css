@@ -2,6 +2,10 @@ body {
   background-color: white;
 }
 
+.bsh {
+  box-shadow: 0px -5px 6px rgb(0 0 0 / 10%);
+}
+
 .header-gradient {
   display: block;
   background: linear-gradient(to bottom right, #6060F5 40%, #FDB90D 100%);
@@ -105,11 +109,6 @@ main .sidebar .list-group-item:last-child {
     border-radius: 0;
   }
 }
-
-/* .carousel img,
-.carousel-item img {
-  mix-blend-mode: multiply !important;
-} */
  
 
 

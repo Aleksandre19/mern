@@ -22,7 +22,7 @@ const SideBar = () => {
       <ListGroup variant='flush'>
         <ListGroup.Item
           variant='dark'
-          className={`${isHomePage ? 'active mt-5 rounded-top-start' : 'mt-5 rounded-top-start'}`}
+          className={`${isHomePage ? 'active mt-5 rounded-top-start bsh' : 'mt-5 rounded-top-start bsh'}`}
         >
           <Link to='/'>All Products</Link>
         </ListGroup.Item>

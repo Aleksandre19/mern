@@ -7,7 +7,7 @@ const ProductsHeader = ({ children }) => {
   return (
     <Col
       lg={search ? 12 : 9}
-      className='p-4 rounded-4'
+      className='p-4 rounded-4 bsh'
       style={{ backgroundColor: '#F7FAFC' }}
     >
       <Row>{children}</Row>
