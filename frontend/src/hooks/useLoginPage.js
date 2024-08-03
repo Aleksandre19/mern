@@ -27,7 +27,8 @@ const useLoginPage = () => {
 
   // Redirect if user is authenticated
   useEffect(() => {
-    if (userInfo) navigate(redirect);
+    const redirectPath = redirect.startsWith('/') ? redirect : `/${redirect}`;
+    if (userInfo) navigate(redirectPath);
   }, [userInfo, redirect, navigate]);
 
   // Authenticate user

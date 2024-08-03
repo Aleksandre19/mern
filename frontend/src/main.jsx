@@ -68,6 +68,7 @@ const router = createBrowserRouter(
 
       <Route path='' element={<PrivateRoute />}>
         <Route path='/shipping' element={<ShippingPage />} />
+        <Route path='/login/shipping' element={<ShippingPage />} />
         <Route path='/payment' element={<PaymentPage />} />
         <Route path='/placeorder' element={<PlaceOrderPage />} />
         <Route path='/order/:id' element={<OrderDetailsPage />} />

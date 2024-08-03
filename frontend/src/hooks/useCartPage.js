@@ -21,7 +21,7 @@ const useCartPage = () => {
 
   // Chackout
   const chackoutHandler = () => {
-    navigate('/login?redirect=shipping');
+    navigate('/login?redirect=/shipping');
   };
 
   return {
