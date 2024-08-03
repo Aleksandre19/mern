@@ -96,7 +96,6 @@ const validateOrder = (order) => {
         user: Joi.objectId(),
         name: Joi.string(),
         image: Joi.string(),
-        brand: Joi.string(),
         category: Joi.string(),
         description: Joi.string(),
         rating: Joi.number(),

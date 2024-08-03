@@ -1,6 +1,5 @@
 import express from 'express';
 const router = express.Router();
-import _ from 'lodash';
 import Product from '../models/product.js';
 import Category from '../models/category.js';
 import buildProductQuery from '../controllers/productController.js';
@@ -76,7 +75,11 @@ router.get(
   asyncHandler(async (req, res) => {
     // Find product
     const { data, error } = await handleDb(
-      Product.findById(req.params.id).populate('category')
+      Product.findById(req.params.id).populate({
+        path: 'category',
+        select: '_id',
+        transform: (doc) => doc._id.toString(),
+      })
     );
 
     // Handle server and not found errors

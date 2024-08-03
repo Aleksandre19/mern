@@ -27,11 +27,11 @@ const newProducts = [];
 products.forEach((product) => {
   // Excluding sku and image_url.
   // Grabbing category and image for restructuring.
-  const { sku, category, image_url, image, ...remaining } = product.fields;
+  const { sku, brand, category, image_url, image, ...remaining } =
+    product.fields;
 
   // Creating neccessary fields for new product.
   const newCategory = categories[category].trim();
-  const brand = '';
   const new_image = `/images/${image}`;
   const numReviews = 0;
   const countInStock = randomNumber(5, 30);
@@ -42,7 +42,6 @@ products.forEach((product) => {
     category: newCategory,
     reviews: [],
     image: new_image,
-    brand,
     numReviews,
     countInStock,
   };
